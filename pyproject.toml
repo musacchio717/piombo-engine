@@ -1,0 +1,29 @@
+[project]
+name = "piombo-engine"
+version = "0.1.0"
+requires-python = ">=3.12"
+description = "Dystopian AI-narrated text adventure game"
+
+dependencies = [
+    "fastapi>=0.111",
+    "uvicorn[standard]",
+    "sqlalchemy>=2.0",
+    "alembic",
+    "pydantic-settings",
+    "langgraph>=0.2",
+    "langchain-community",
+    "ollama",
+    "qdrant-client",
+    "sentence-transformers",
+    "neo4j",
+    "networkx",
+    "langfuse",
+    "httpx",
+    "python-dotenv",
+]
+
+[tool.uv]
+dev-dependencies = [
+    "pytest",
+    "pytest-asyncio",
+]
