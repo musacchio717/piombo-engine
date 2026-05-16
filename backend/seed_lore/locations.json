@@ -1,0 +1,60 @@
+{
+  "locations": [
+    {
+      "id": "milano_centro",
+      "name": "Milano Centro",
+      "zone": "zona_rossa",
+      "danger_level": 5,
+      "description": "Il cuore di Milano sotto controllo militare totale. Accesso vietato senza lasciapassare.",
+      "k_core": 3
+    },
+    {
+      "id": "checkpoint_a1_sud",
+      "name": "Checkpoint A1 Sud Milano",
+      "zone": "zona_arancione",
+      "danger_level": 4,
+      "description": "Principale punto di controllo sull'autostrada A1. Presidiato dal Tenente Marini.",
+      "k_core": 3
+    },
+    {
+      "id": "milano_nord_clinica",
+      "name": "Clinica Segreta Milano Nord",
+      "zone": "zona_gialla",
+      "danger_level": 2,
+      "description": "Clinica nascosta in un ex magazzino. Gestita da Marco Ferretti.",
+      "k_core": 2
+    },
+    {
+      "id": "laboratorio_pavia",
+      "name": "Laboratorio Abbandonato Pavia",
+      "zone": "zona_grigia",
+      "danger_level": 3,
+      "description": "Ex laboratorio universitario dove il Professor Rossi lavora al vaccino.",
+      "k_core": 3
+    },
+    {
+      "id": "cattedrale_sotterranea",
+      "name": "Cattedrale Sotterranea Milano",
+      "zone": "zona_gialla",
+      "danger_level": 2,
+      "description": "Rete di tunnel sotto il Duomo usata come base dalla resistenza.",
+      "k_core": 2
+    },
+    {
+      "id": "locanda_abbandonata",
+      "name": "Locanda Abbandonata Navigli",
+      "zone": "zona_gialla",
+      "danger_level": 1,
+      "description": "Ex ostello usato da Sara Neri come base operativa per le sue attività hacker.",
+      "k_core": 2
+    },
+    {
+      "id": "starting_location",
+      "name": "Periferia Sud Milano",
+      "zone": "zona_gialla",
+      "danger_level": 2,
+      "description": "Punto di partenza del giocatore. Un quartiere periferico semi-deserto.",
+      "k_core": 1
+    }
+  ]
+}

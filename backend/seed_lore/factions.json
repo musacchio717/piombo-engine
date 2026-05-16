@@ -1,0 +1,44 @@
+{
+  "factions": [
+    {
+      "id": "governo_emergenza",
+      "name": "Governo di Emergenza Nazionale",
+      "alignment": "authoritarian",
+      "influence_level": 5,
+      "description": "Il regime militare che controlla l'Italia in quarantena. Gestisce i checkpoint e i lasciapassare.",
+      "k_core": 3
+    },
+    {
+      "id": "colonna_nord",
+      "name": "Colonna dei Sopravvissuti Nord",
+      "alignment": "resistance",
+      "influence_level": 3,
+      "description": "Principale gruppo di resistenza a Milano. Coordina aiuti umanitari e sabotaggi.",
+      "k_core": 3
+    },
+    {
+      "id": "laboratorio_pavia",
+      "name": "Ricercatori Indipendenti Pavia",
+      "alignment": "neutral",
+      "influence_level": 2,
+      "description": "Gruppo di scienziati che lavora al vaccino fuori dal controllo del regime.",
+      "k_core": 2
+    },
+    {
+      "id": "chiesa_nascosta",
+      "name": "Chiesa Nascosta",
+      "alignment": "neutral",
+      "influence_level": 2,
+      "description": "Rete religiosa che fornisce rifugio e cibo ai civili.",
+      "k_core": 2
+    },
+    {
+      "id": "rete_digitale",
+      "name": "Rete Digitale Clandestina",
+      "alignment": "resistance",
+      "influence_level": 2,
+      "description": "Hackers che sabotano i sistemi di sorveglianza del regime.",
+      "k_core": 2
+    }
+  ]
+}

@@ -22,8 +22,11 @@ dependencies = [
     "python-dotenv",
 ]
 
-[tool.uv]
-dev-dependencies = [
+[dependency-groups]
+dev = [
     "pytest",
     "pytest-asyncio",
 ]
+
+[tool.setuptools.packages.find]
+where = ["backend"]

@@ -1,0 +1,39 @@
+{
+  "objects": [
+    {
+      "id": "lasciapassare_falso",
+      "name": "Lasciapassare Falso",
+      "type": "documento",
+      "rarity": "rare",
+      "description": "Documento contraffatto che permette il passaggio ai checkpoint. Pericoloso se scoperto."
+    },
+    {
+      "id": "vaccino_sperimentale",
+      "name": "Vaccino Sperimentale",
+      "type": "medico",
+      "rarity": "legendary",
+      "description": "Prototipo del vaccino sviluppato dal Professor Rossi. Obiettivo principale del gioco."
+    },
+    {
+      "id": "radio_clandestina",
+      "name": "Radio Clandestina",
+      "type": "comunicazione",
+      "rarity": "uncommon",
+      "description": "Radio modificata per comunicare sulla frequenza della resistenza."
+    },
+    {
+      "id": "kit_medico",
+      "name": "Kit Medico di Base",
+      "type": "medico",
+      "rarity": "common",
+      "description": "Bende, antibiotici e disinfettante. Recupera 20 punti salute."
+    },
+    {
+      "id": "mappa_checkpoint",
+      "name": "Mappa dei Checkpoint",
+      "type": "informazione",
+      "rarity": "uncommon",
+      "description": "Mappa aggiornata con la posizione dei checkpoint militari attorno a Milano."
+    }
+  ]
+}

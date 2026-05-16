@@ -1,0 +1,49 @@
+{
+  "characters": [
+    {
+      "id": "marco_ferretti",
+      "name": "Marco Ferretti",
+      "role": "Medico Underground",
+      "faction_id": "colonna_nord",
+      "description": "Medico che gestisce una clinica segreta a Milano Nord.",
+      "status": "alive",
+      "k_core": 3
+    },
+    {
+      "id": "anna_rossi",
+      "name": "Anna Rossi",
+      "role": "Staffetta Resistenza",
+      "faction_id": "colonna_nord",
+      "description": "Ragazza ventenne che trasporta informazioni tra i checkpoint di Milano.",
+      "status": "alive",
+      "k_core": 2
+    },
+    {
+      "id": "tenente_marini",
+      "name": "Tenente Marini",
+      "role": "Comandante Quarantena",
+      "faction_id": "governo_emergenza",
+      "description": "Militare leale al regime. Controlla il checkpoint A1 Sud Milano.",
+      "status": "alive",
+      "k_core": 2
+    },
+    {
+      "id": "professor_rossi",
+      "name": "Professor Giancarlo Rossi",
+      "role": "Ricercatore Vaccino",
+      "faction_id": "laboratorio_pavia",
+      "description": "Scienziato che lavora al vaccino nel laboratorio di Pavia.",
+      "status": "alive",
+      "k_core": 3
+    },
+    {
+      "id": "sara_neri",
+      "name": "Sara Neri",
+      "role": "Hacker",
+      "faction_id": "rete_digitale",
+      "description": "Esperta di informatica che infiltra i sistemi del regime.",
+      "status": "alive",
+      "k_core": 2
+    }
+  ]
+}
