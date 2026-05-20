@@ -30,7 +30,7 @@ def _build_game_service(db: Session) -> GameService:
     kcore      = KCoreAnalyzer(lore_graph)
     ppr        = PersonalizedPageRank(lore_graph, kcore)
     retriever  = HybridRetriever(qdrant, ppr, lore_graph)
-    graph      = build_narrator_graph(retriever, llm=MockLLM())
+    graph      = build_narrator_graph(retriever, llm=MockLLM(), lore_graph=lore_graph)
     return GameService(graph, db)
 
 

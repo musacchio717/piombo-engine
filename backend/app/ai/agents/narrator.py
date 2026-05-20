@@ -94,20 +94,36 @@ def node_generate(state: NarratorState, llm: LLMClient) -> dict:
     }
 
 
-def node_check(state: NarratorState) -> dict:
+def node_check(state: NarratorState, checker: "ConsistencyChecker") -> dict:
     """
-    Consistency check leggero.
-    Settimana 3: verifica minima (output valido + no contenuto vuoto).
-    Settimana 4: potenziare con secondo agente che interroga Neo4j.
+    Consistency check a tre livelli (HiPRAG + TeaRAG pattern):
+      1. Format check — XML ben formato, tag obbligatori
+      2. Entity check — nomi propri esistono nel KG
+      3. Location check — location_change punta a nodo connesso
     """
+    from app.ai.agents.consistency import ConsistencyChecker
     out: NarratorOutput | None = state["narrator_output"]
 
     if out is None or not out.is_valid:
         logger.warning("node_check: output non valido, retry_count=%d", state["retry_count"])
         return {"errors": ["output non valido da node_check"]}
 
-    logger.info("node_check: output valido ✓")
-    return {}
+    result = checker.check(
+        output=out,
+        current_location_id=state["current_location_id"],
+    )
+
+    if result.violations:
+        logger.warning("node_check: violations=%s", result.violations)
+    if result.warnings:
+        logger.info("node_check: warnings=%s", result.warnings)
+
+    errors = result.violations  # solo le violations bloccano
+    if not result.is_consistent:
+        return {"errors": errors, "narrator_output": None}  # forza retry
+
+    logger.info("node_check: consistente ✓ (warnings=%d)", len(result.warnings))
+    return {"errors": errors}  # warnings passano come errori non bloccanti
 
 
 def should_retry(state: NarratorState) -> str:
@@ -157,23 +173,38 @@ def node_finalize(state: NarratorState) -> dict:
 def build_narrator_graph(
     retriever: HybridRetriever,
     llm: LLMClient | None = None,
+    lore_graph=None,
 ) -> StateGraph:
     """
     Costruisce e compila il grafo LangGraph del narratore.
 
     Args:
-        retriever: HybridRetriever già inizializzato
-        llm:       client LLM da usare (default: MockLLM)
+        retriever:  HybridRetriever già inizializzato
+        llm:        client LLM da usare (default: MockLLM)
+        lore_graph: LoreGraph per il ConsistencyChecker (opzionale)
     """
+    from app.ai.agents.consistency import ConsistencyChecker
+
     if llm is None:
         llm = MockLLM()
+
+    checker = ConsistencyChecker(lore_graph) if lore_graph else None
+
+    def _check_node(s):
+        if checker:
+            return node_check(s, checker)
+        # fallback senza checker: solo validazione sintattica
+        out = s["narrator_output"]
+        if out is None or not out.is_valid:
+            return {"errors": ["output non valido"]}
+        return {}
 
     graph = StateGraph(NarratorState)
 
     # Nodi (lambda per iniettare dipendenze senza classi)
     graph.add_node("retrieve",  lambda s: node_retrieve(s, retriever))
     graph.add_node("generate",  lambda s: node_generate(s, llm))
-    graph.add_node("check",     node_check)
+    graph.add_node("check",     _check_node)
     graph.add_node("retry",     node_retry)
     graph.add_node("finalize",  node_finalize)
 
