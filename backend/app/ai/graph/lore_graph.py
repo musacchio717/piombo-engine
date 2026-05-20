@@ -211,7 +211,7 @@ class LoreGraph:
         """Ritorna un nodo by id con tutte le sue proprietà."""
         with self._driver.session() as session:
             result = session.run(
-                "MATCH (n {id: $id}) RETURN properties(n) AS props, labels(n) AS labels",
+                "MATCH (n {id: $id}) RETURN properties(n) AS props, labels(n) AS labels LIMIT 1",
                 id=node_id,
             )
             record = result.single()
