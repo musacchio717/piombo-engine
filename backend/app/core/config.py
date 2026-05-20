@@ -16,6 +16,10 @@ class Settings(BaseSettings):
     API_TITLE: str = "Piombo Engine"
     API_VERSION: str = "0.1.0"
     
+    SEED_LORE_DIR: str = "backend/seed_lore"
+    EMBEDDING_MODEL: str = "BAAI/bge-m3"
+    EMBEDDING_DEVICE: str = "cuda"
+
     class Config:
         env_file = ".env"
 

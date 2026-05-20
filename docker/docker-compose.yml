@@ -13,6 +13,12 @@ services:
       - neo4j_data:/var/lib/neo4j/data
     networks:
       - piombo-net
+    healthcheck:
+      test: ["CMD", "cypher-shell", "-u", "neo4j", "-p", "piombo-password", "RETURN 1"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
 
   qdrant:
     image: qdrant/qdrant:latest
