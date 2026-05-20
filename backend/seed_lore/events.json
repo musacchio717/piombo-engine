@@ -6,7 +6,11 @@
       "date_ucronic": "2020-03",
       "description": "Un virus molto più letale del COVID-19 colpisce il mondo. Nessun vaccino verrà sviluppato per anni.",
       "impact": "Collasso parziale degli stati nazionali. Instaurazione di regimi di emergenza.",
-      "k_core": 3
+      "k_core": 3,
+      "relations": [
+        { "type": "OCCURRED_IN", "target_id": "milano_centro" },
+        { "type": "CAUSED_BY", "target_id": "governo_emergenza" }
+      ]
     },
     {
       "id": "quarantena_forzata",
@@ -14,7 +18,11 @@
       "date_ucronic": "2020-06",
       "description": "Il governo italiano impone quarantena permanente con zone di accesso controllato.",
       "impact": "Divisione del territorio in zone colorate. Istituzione dei checkpoint militari.",
-      "k_core": 3
+      "k_core": 3,
+      "relations": [
+        { "type": "OCCURRED_IN", "target_id": "milano_centro" },
+        { "type": "CAUSED_BY", "target_id": "governo_emergenza" }
+      ]
     },
     {
       "id": "nascita_resistenza",
@@ -22,7 +30,11 @@
       "date_ucronic": "2020-09",
       "description": "Gruppi civili iniziano a organizzarsi contro il regime di emergenza.",
       "impact": "Formazione della Colonna dei Sopravvissuti Nord e altre fazioni.",
-      "k_core": 2
+      "k_core": 2,
+      "relations": [
+        { "type": "OCCURRED_IN", "target_id": "cattedrale_sotterranea" },
+        { "type": "CAUSED_BY", "target_id": "colonna_nord" }
+      ]
     },
     {
       "id": "progetto_vaccino",
@@ -30,7 +42,11 @@
       "date_ucronic": "2021-01",
       "description": "Il Professor Rossi avvia ricerche segrete sul vaccino a Pavia, fuori dal controllo del regime.",
       "impact": "Speranza per la fine della pandemia. Obiettivo strategico di tutte le fazioni.",
-      "k_core": 3
+      "k_core": 3,
+      "relations": [
+        { "type": "OCCURRED_IN", "target_id": "laboratorio_pavia" },
+        { "type": "CAUSED_BY", "target_id": "laboratorio_pavia" }
+      ]
     }
   ]
 }

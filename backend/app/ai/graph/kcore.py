@@ -79,6 +79,8 @@ class KCoreAnalyzer:
                 if not G.has_edge(from_id, to_id):
                     G.add_edge(from_id, to_id, rel_type=edge.get("type", ""))
 
+        G.remove_edges_from(nx.selfloop_edges(G))
+        G.remove_edges_from(nx.selfloop_edges(G))
         self._nx_graph = G
         logger.info(
             "NetworkX graph built: %d nodes, %d edges",

@@ -7,7 +7,13 @@
       "faction_id": "colonna_nord",
       "description": "Medico che gestisce una clinica segreta a Milano Nord.",
       "status": "alive",
-      "k_core": 3
+      "k_core": 3,
+      "relations": [
+        { "type": "MEMBER_OF", "target_id": "colonna_nord" },
+        { "type": "LOCATED_IN", "target_id": "milano_nord_clinica" },
+        { "type": "KNOWS", "target_id": "anna_rossi", "properties": { "trust_level": 8 } },
+        { "type": "POSSESSES", "target_id": "kit_medico" }
+      ]
     },
     {
       "id": "anna_rossi",
@@ -16,7 +22,13 @@
       "faction_id": "colonna_nord",
       "description": "Ragazza ventenne che trasporta informazioni tra i checkpoint di Milano.",
       "status": "alive",
-      "k_core": 2
+      "k_core": 2,
+      "relations": [
+        { "type": "MEMBER_OF", "target_id": "colonna_nord" },
+        { "type": "LOCATED_IN", "target_id": "cattedrale_sotterranea" },
+        { "type": "KNOWS", "target_id": "marco_ferretti", "properties": { "trust_level": 8 } },
+        { "type": "POSSESSES", "target_id": "radio_clandestina" }
+      ]
     },
     {
       "id": "tenente_marini",
@@ -25,7 +37,12 @@
       "faction_id": "governo_emergenza",
       "description": "Militare leale al regime. Controlla il checkpoint A1 Sud Milano.",
       "status": "alive",
-      "k_core": 2
+      "k_core": 2,
+      "relations": [
+        { "type": "MEMBER_OF", "target_id": "governo_emergenza" },
+        { "type": "LOCATED_IN", "target_id": "checkpoint_a1_sud" },
+        { "type": "POSSESSES", "target_id": "mappa_checkpoint" }
+      ]
     },
     {
       "id": "professor_rossi",
@@ -34,7 +51,13 @@
       "faction_id": "laboratorio_pavia",
       "description": "Scienziato che lavora al vaccino nel laboratorio di Pavia.",
       "status": "alive",
-      "k_core": 3
+      "k_core": 3,
+      "relations": [
+        { "type": "MEMBER_OF", "target_id": "laboratorio_pavia" },
+        { "type": "LOCATED_IN", "target_id": "laboratorio_pavia" },
+        { "type": "POSSESSES", "target_id": "vaccino_sperimentale" },
+        { "type": "INVOLVED_IN", "target_id": "progetto_vaccino" }
+      ]
     },
     {
       "id": "sara_neri",
@@ -43,7 +66,13 @@
       "faction_id": "rete_digitale",
       "description": "Esperta di informatica che infiltra i sistemi del regime.",
       "status": "alive",
-      "k_core": 2
+      "k_core": 2,
+      "relations": [
+        { "type": "MEMBER_OF", "target_id": "rete_digitale" },
+        { "type": "LOCATED_IN", "target_id": "locanda_abbandonata" },
+        { "type": "KNOWS", "target_id": "anna_rossi", "properties": { "trust_level": 5 } },
+        { "type": "POSSESSES", "target_id": "lasciapassare_falso" }
+      ]
     }
   ]
 }

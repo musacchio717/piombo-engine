@@ -6,7 +6,12 @@
       "alignment": "authoritarian",
       "influence_level": 5,
       "description": "Il regime militare che controlla l'Italia in quarantena. Gestisce i checkpoint e i lasciapassare.",
-      "k_core": 3
+      "k_core": 3,
+      "relations": [
+        { "type": "HOSTILE_TO", "target_id": "colonna_nord" },
+        { "type": "HOSTILE_TO", "target_id": "rete_digitale" },
+        { "type": "CAUSED_BY", "target_id": "quarantena_forzata" }
+      ]
     },
     {
       "id": "colonna_nord",
@@ -14,7 +19,12 @@
       "alignment": "resistance",
       "influence_level": 3,
       "description": "Principale gruppo di resistenza a Milano. Coordina aiuti umanitari e sabotaggi.",
-      "k_core": 3
+      "k_core": 3,
+      "relations": [
+        { "type": "HOSTILE_TO", "target_id": "governo_emergenza" },
+        { "type": "ALLIED_WITH", "target_id": "laboratorio_pavia" },
+        { "type": "ALLIED_WITH", "target_id": "chiesa_nascosta" }
+      ]
     },
     {
       "id": "laboratorio_pavia",
@@ -22,7 +32,10 @@
       "alignment": "neutral",
       "influence_level": 2,
       "description": "Gruppo di scienziati che lavora al vaccino fuori dal controllo del regime.",
-      "k_core": 2
+      "k_core": 2,
+      "relations": [
+        { "type": "ALLIED_WITH", "target_id": "colonna_nord" }
+      ]
     },
     {
       "id": "chiesa_nascosta",
@@ -30,7 +43,10 @@
       "alignment": "neutral",
       "influence_level": 2,
       "description": "Rete religiosa che fornisce rifugio e cibo ai civili.",
-      "k_core": 2
+      "k_core": 2,
+      "relations": [
+        { "type": "ALLIED_WITH", "target_id": "colonna_nord" }
+      ]
     },
     {
       "id": "rete_digitale",
@@ -38,7 +54,11 @@
       "alignment": "resistance",
       "influence_level": 2,
       "description": "Hackers che sabotano i sistemi di sorveglianza del regime.",
-      "k_core": 2
+      "k_core": 2,
+      "relations": [
+        { "type": "HOSTILE_TO", "target_id": "governo_emergenza" },
+        { "type": "ALLIED_WITH", "target_id": "colonna_nord" }
+      ]
     }
   ]
 }

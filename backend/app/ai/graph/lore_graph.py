@@ -108,7 +108,8 @@ class LoreGraph:
                 counts[label] = 0
                 continue
 
-            entities = json.loads(filepath.read_text(encoding="utf-8"))
+            data = json.loads(filepath.read_text(encoding="utf-8"))
+            entities = data[list(data.keys())[0]] if isinstance(data, dict) else data
             n = self._ingest_nodes(label, entities)
             counts[label] = n
             logger.info("Ingested %d %s nodes", n, label)
@@ -143,7 +144,8 @@ class LoreGraph:
             filepath = seed_dir / filename
             if not filepath.exists():
                 continue
-            entities = json.loads(filepath.read_text(encoding="utf-8"))
+            data = json.loads(filepath.read_text(encoding="utf-8"))
+            entities = data[list(data.keys())[0]] if isinstance(data, dict) else data
             for entity in entities:
                 rels = entity.get("relations", [])
                 for rel in rels:
@@ -265,10 +267,10 @@ class LoreGraph:
         """
         with self._driver.session() as session:
             nodes_result = session.run(
-                "MATCH (n) RETURN n.id AS id, labels(n) AS labels, n.k_core AS k_core"
+                "MATCH (n) RETURN n.id AS id, labels(n) AS labels, properties(n) AS props"
             )
             nodes = [
-                {"id": r["id"], "labels": r["labels"], "k_core": r["k_core"]}
+                {"id": r["id"], "labels": r["labels"], **r["props"]}
                 for r in nodes_result
                 if r["id"] is not None
             ]
