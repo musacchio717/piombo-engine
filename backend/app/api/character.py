@@ -1,5 +1,4 @@
 from fastapi import APIRouter, Depends
-from typing import Optional
 from app.schemas.character import CharacterResponse, CharacterStatsUpdate
 from app.core.database import get_db
 

@@ -17,4 +17,5 @@ class GameEvent(Base, UUIDMixin, TimestampedMixin):
     event_type = Column(Enum(EventType), nullable=False)
     content = Column(Text, nullable=False)
     
-    extra_metadata = Column(JSON, default=dict)
+    # Metadata osservabilità
+    metadata = Column(JSON, default=dict)  # token_count, retrieval_source, latency_ms, etc.
