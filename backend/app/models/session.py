@@ -20,4 +20,4 @@ class GameSession(Base, UUIDMixin, TimestampedMixin):
     narrative_context = Column(JSON, default=list)
     
     status = Column(Enum(SessionStatus), default=SessionStatus.ACTIVE)
-    metadata = Column(JSON, default=dict)
+    extra_data = Column(JSON, default=dict)

@@ -12,10 +12,7 @@ class EventType(str, PyEnum):
 
 class GameEvent(Base, UUIDMixin, TimestampedMixin):
     __tablename__ = "game_events"
-    
     session_id = Column(UUID(as_uuid=True), ForeignKey("game_sessions.id"), nullable=False)
     event_type = Column(Enum(EventType), nullable=False)
     content = Column(Text, nullable=False)
-    
-    # Metadata osservabilità
-    metadata = Column(JSON, default=dict)  # token_count, retrieval_source, latency_ms, etc.
+    event_extra_data = Column(JSON, default=dict)

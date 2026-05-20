@@ -16,4 +16,4 @@ class Character(Base, UUIDMixin, TimestampedMixin):
     
     # JSON per futura espansione
     inventory = Column(JSON, default=list)
-    metadata = Column(JSON, default=dict)  # campi futuri non previsti
+    extra_data = Column(JSON, default=dict)  # campi futuri non previsti

@@ -18,4 +18,4 @@ class Quest(Base, UUIDMixin, TimestampedMixin):
     status = Column(Enum(QuestStatus), default=QuestStatus.ACTIVE)
     
     objectives = Column(JSON, default=list)  # Lista di step/obiettivi
-    metadata = Column(JSON, default=dict)
+    extra_data = Column(JSON, default=dict)

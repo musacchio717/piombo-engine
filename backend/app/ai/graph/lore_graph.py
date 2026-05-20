@@ -293,11 +293,11 @@ class LoreGraph:
         with self._driver.session() as session:
             result = session.run(
                 "MATCH (n) "
-                "WHERE toLower(n.name) CONTAINS toLower($query) "
+                "WHERE toLower(n.name) CONTAINS toLower($name) "
                 "RETURN properties(n) AS props, labels(n) AS labels "
                 "ORDER BY n.k_core DESC "
                 "LIMIT $limit",
-                query=name_query,
+                name=name_query,
                 limit=limit,
             )
             return [

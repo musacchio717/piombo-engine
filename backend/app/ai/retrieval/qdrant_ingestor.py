@@ -289,9 +289,9 @@ class QdrantIngestor:
                 ]
             )
 
-        results = self._client.search(
+        response = self._client.query_points(
             collection_name=collection,
-            query_vector=query_vector,
+            query=query_vector,
             limit=top_k,
             query_filter=qdrant_filter,
             with_payload=True,
@@ -302,7 +302,7 @@ class QdrantIngestor:
                 "score":    r.score,
                 "metadata": r.payload,
             }
-            for r in results
+            for r in response.points
         ]
 
     def get_collection_stats(self) -> dict[str, Any]:
