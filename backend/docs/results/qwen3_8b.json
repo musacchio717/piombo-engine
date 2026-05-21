@@ -1,0 +1,126 @@
+{
+  "model": "qwen3:8b",
+  "scenarios": {
+    "scenario_1": {
+      "name": "Azione semplice in location conosciuta",
+      "entries": [
+        {
+          "action": "Guardo fuori dalla finestra. Vedo dei soldati in tuta protettiva per strada.",
+          "response": "Guardi fuori. Due soldati in tuta protettiva pattugliano la strada. Il loro checkpoint è vicino, a sud Milano. Non si fermano mai, ma i loro occhi ti seguono. È meglio non attirare l'attenzione.",
+          "latency_ms": 7164,
+          "xml_valid": false,
+          "stat_delta": {
+            "suspicion": 5
+          },
+          "errors": [
+            "<think> tag mancante — usato default"
+          ]
+        }
+      ]
+    },
+    "scenario_2": {
+      "name": "Entità multiple dal Knowledge Graph",
+      "entries": [
+        {
+          "action": "Cerco il Tenente Marini al Checkpoint A1 Sud per chiedergli un lasciapassare.",
+          "response": "Arrivi al checkpoint A1 Sud Milano. I riflettori lampeggiano sulle auto bloccate. Un soldato ti fissa mentre ti avvicini al cancello. Il tenente Marini è dietro una scrivania, circondato da mappe e file di documenti falsi. Il suo sguardo è duro, pronto a scattare se qualcosa va storto.",
+          "latency_ms": 3234,
+          "xml_valid": false,
+          "stat_delta": {
+            "suspicion": 10
+          },
+          "errors": [
+            "<think> tag mancante — usato default"
+          ]
+        }
+      ]
+    },
+    "scenario_3": {
+      "name": "Dialogo in italiano colloquiale",
+      "entries": [
+        {
+          "action": "Chiedo al negoziante: 'Senti, hai qualcosa da mangiare? Pago bene.'",
+          "response": "Il negoziante sbircia nel vano della vetrina. \"Niente da mangiare. Tutti i generi alimentari sono scomparso.\" La sua voce è un sussurro, come se temesse di essere ascoltato. \"Ma se hai soldi, forse...\" dice, guardando il tuo portafoglio. Non è facile convincere nessuno, in questi giorni.",
+          "latency_ms": 7670,
+          "xml_valid": false,
+          "stat_delta": {
+            "suspicion": 5
+          },
+          "errors": [
+            "<think> tag mancante — usato default"
+          ]
+        }
+      ]
+    },
+    "scenario_4": {
+      "name": "Sequenza 5 azioni consecutive",
+      "entries": [
+        {
+          "action": "Esco dall'appartamento e scendo le scale.",
+          "response": "Esco dall'appartamento e scendo le scale. L'aria fredda ti colpisce le gambe, ma non c'è tempo per fermarti. Il rumore dei passi risuona vuoto nel corridoio. Dietro la porta, un soldato si volta, ma non ti vede. La città è sveglia, ma non ti ha ancora notato.",
+          "latency_ms": 8147,
+          "xml_valid": false,
+          "stat_delta": {},
+          "errors": [
+            "<think> tag mancante — usato default"
+          ]
+        },
+        {
+          "action": "Guardo la strada prima di uscire dal portone.",
+          "response": "Guardi la strada deserta, il cielo grigio che si tinge di rosso. Sulle mura del quartiere, un cartello segnala l'accesso al checkpoint A1 Sud Milano. Qualcosa ti dice che uscire adesso potrebbe attirare l'attenzione. La mappa in tasca sembra vibrare sotto le dita. Non è il momento giusto per muoversi.",
+          "latency_ms": 3167,
+          "xml_valid": false,
+          "stat_delta": {
+            "suspicion": 3
+          },
+          "errors": [
+            "<think> tag mancante — usato default"
+          ]
+        },
+        {
+          "action": "Cammino veloce verso il mercato abbandonato.",
+          "response": "Il narratore esita. Il silenzio della quarantena è tutto intorno a te.",
+          "latency_ms": 24752,
+          "xml_valid": false,
+          "stat_delta": {},
+          "errors": [
+            "<think> tag mancante — usato default",
+            "location check: 'mercato_abbandonato' non esiste nel Knowledge Graph",
+            "<think> tag mancante — usato default",
+            "<action> tag mancante — usato default",
+            "<stat_change> tag mancante — usato default",
+            "<response> tag mancante — usato raw fallback",
+            "output non valido da node_check"
+          ]
+        },
+        {
+          "action": "Sento dei passi dietro di me, mi giro di scatto.",
+          "response": "Il rumore si ferma. Qualcuno si avvicina da dietro. Ti giri lentamente, il cuore che batte forte. Un guardiano in divisa nera ti fissa con occhi freddi, il fucile puntato verso di te. \"Chi ti credi di essere?\" tuona. Non hai scelta: devi rispondere.",
+          "latency_ms": 6319,
+          "xml_valid": false,
+          "stat_delta": {
+            "suspicion": 10
+          },
+          "errors": [
+            "<think> tag mancante — usato default"
+          ]
+        },
+        {
+          "action": "Vedo una figura incappucciata che mi fa cenno di seguirla.",
+          "response": "La figura si muove lentamente, il cappuccio copre il volto. Ti indica la strada con un gesto brusco. Il cuore accelera: potrebbe essere un membro dei Sopravvissuti o un agente del checkpoint. Seguirla potrebbe aprirti nuove strade, ma il rischio è alto.",
+          "latency_ms": 14826,
+          "xml_valid": false,
+          "stat_delta": {
+            "suspicion": 5
+          },
+          "errors": [
+            "<think> tag mancante — usato default",
+            "<response> tag mancante — usato raw fallback",
+            "location check: 'Checkpoint A1 Sud Milano' non esiste nel Knowledge Graph",
+            "<think> tag mancante — usato default"
+          ]
+        }
+      ]
+    }
+  }
+}
