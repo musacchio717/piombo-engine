@@ -1,0 +1,101 @@
+{
+  "model": "mistral-nemo:12b-instruct-2407-q4_K_M",
+  "scenarios": {
+    "scenario_1": {
+      "name": "Azione semplice in location conosciuta",
+      "entries": [
+        {
+          "action": "Guardo fuori dalla finestra. Vedo dei soldati in tuta protettiva per strada.",
+          "response": "Guardi fuori dalla finestra. La strada di solito animata è ora deserta, tranne per i soldati in tuta protettiva che pattugliano avanti e indietro. I loro passi pesanti risuonano nell'aria vuota. L'atmosfera è tesa e opprimente.",
+          "latency_ms": 14269,
+          "xml_valid": true,
+          "stat_delta": {
+            "suspicion": 2
+          },
+          "errors": []
+        }
+      ]
+    },
+    "scenario_2": {
+      "name": "Entità multiple dal Knowledge Graph",
+      "entries": [
+        {
+          "action": "Cerco il Tenente Marini al Checkpoint A1 Sud per chiedergli un lasciapassare.",
+          "response": "Entri nella stanza del checkpoint. Il Tenente Marini è seduto dietro una scrivania, intento a compilare scartoffie. \"Posso aiutarti?\" chiede senza alzare lo sguardo. La tensione nell'aria è palpabile.",
+          "latency_ms": 3431,
+          "xml_valid": true,
+          "stat_delta": {},
+          "errors": []
+        }
+      ]
+    },
+    "scenario_3": {
+      "name": "Dialogo in italiano colloquiale",
+      "entries": [
+        {
+          "action": "Chiedo al negoziante: 'Senti, hai qualcosa da mangiare? Pago bene.'",
+          "response": "Entri nel piccolo negozio, l'unico ancora aperto in tutta la periferia. Il negoziante ti guarda con diffidenza. \"Cosa vuoi?\" ringhia. \"Ho fame,\" ammetti, \"Hai qualcosa da mangiare? Pago bene.\" Lui ti scruta, poi si china sotto il bancone e tira fuori una scatola di conserve. \"Questo è tutto quello che ho. Cinquecento euro.\" Ti fissa con aria sospettosa.",
+          "latency_ms": 5590,
+          "xml_valid": true,
+          "stat_delta": {
+            "suspicion": 5
+          },
+          "errors": []
+        }
+      ]
+    },
+    "scenario_4": {
+      "name": "Sequenza 5 azioni consecutive",
+      "entries": [
+        {
+          "action": "Esco dall'appartamento e scendo le scale.",
+          "response": "Scendi le scale, i tuoi passi risuonano nel silenzio dell'edificio. L'aria è fredda e umida, come se l'edificio stesso trattenesse il fiato per la tensione.",
+          "latency_ms": 4000,
+          "xml_valid": true,
+          "stat_delta": {
+            "suspicion": 5
+          },
+          "errors": []
+        },
+        {
+          "action": "Guardo la strada prima di uscire dal portone.",
+          "response": "Sbirci fuori dal portone. La strada è deserta, tranne per qualche auto bruciata e un sacco di spazzatura che rotola al vento. Non si vede anima viva. Ma non significa che sei solo.",
+          "latency_ms": 3213,
+          "xml_valid": true,
+          "stat_delta": {},
+          "errors": []
+        },
+        {
+          "action": "Cammino veloce verso il mercato abbandonato.",
+          "response": "Cammini veloce lungo la strada deserta, il rumore dei tuoi passi echeggia tra i palazzi vuoti. Il mercato abbandonato si avvicina, ma c'è qualcosa di strano nell'aria. La tensione cresce mentre ti addentri in questa zona abbandonata.",
+          "latency_ms": 4287,
+          "xml_valid": true,
+          "stat_delta": {
+            "suspicion": 10
+          },
+          "errors": []
+        },
+        {
+          "action": "Sento dei passi dietro di me, mi giro di scatto.",
+          "response": "I passi si avvicinano, il tuo cuore batte all'impazzata. Ti giri di scatto. Una figura emerge dall'ombra, troppo vicina per i tuoi gusti. \"Chi sei?\" chiedi, cercando di nascondere la tensione nella voce.",
+          "latency_ms": 3811,
+          "xml_valid": true,
+          "stat_delta": {
+            "suspicion": 10
+          },
+          "errors": []
+        },
+        {
+          "action": "Vedo una figura incappucciata che mi fa cenno di seguirla.",
+          "response": "La figura si volta e scompare nell'ombra del vicolo vicino. Ti fa cenno di seguirla, ma qualcosa non quadra. Potrebbe essere una trappola o un'opportunità per ottenere informazioni preziose sulla città.",
+          "latency_ms": 3844,
+          "xml_valid": true,
+          "stat_delta": {
+            "suspicion": 10
+          },
+          "errors": []
+        }
+      ]
+    }
+  }
+}

@@ -22,7 +22,7 @@ class Settings(BaseSettings):
     EMBEDDING_DEVICE: str = "cuda"
 
     # LLM
-    LLM_MODEL: str = "qwen3:8b"           # switch: "mistral-nemo:12b-instruct-2407-q4_K_M"
+    LLM_MODEL: str = "mistral-nemo:12b-instruct-2407-q4_K_M"           # switch: "qwen3:8b"
     LLM_TEMPERATURE: float = 0.7
     LLM_MAX_TOKENS: int = 1024
     LLM_NUM_CTX: int = 8192               # context window — max sicuro per 12GB VRAM
