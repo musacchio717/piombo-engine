@@ -49,20 +49,23 @@ class MockLLM(LLMClient):
 class OllamaLLM(LLMClient):
     """
     Client LLM che chiama Ollama in locale.
-    Da usare quando Qwen3-8B è installato e running.
+    Parametri letti da config.py — switchare LLM_MODEL in .env o config.
     """
 
     def __init__(
         self,
-        model: str = "qwen3:8b",
-        base_url: str = "http://localhost:11434",
-        temperature: float = 0.7,
-        max_tokens: int = 1024,
+        model: str | None = None,
+        base_url: str | None = None,
+        temperature: float | None = None,
+        max_tokens: int | None = None,
+        num_ctx: int | None = None,
     ) -> None:
-        self.model = model
-        self.base_url = base_url
-        self.temperature = temperature
-        self.max_tokens = max_tokens
+        from app.core.config import settings
+        self.model       = model       or settings.LLM_MODEL
+        self.base_url    = base_url    or settings.OLLAMA_BASE_URL
+        self.temperature = temperature or settings.LLM_TEMPERATURE
+        self.max_tokens  = max_tokens  or settings.LLM_MAX_TOKENS
+        self.num_ctx     = num_ctx     or settings.LLM_NUM_CTX
 
         # Import lazy: non rompe se ollama non è installato in dev
         try:
@@ -84,6 +87,7 @@ class OllamaLLM(LLMClient):
             options={
                 "temperature": self.temperature,
                 "num_predict": self.max_tokens,
+                "num_ctx":     self.num_ctx,
             },
         )
         return response["message"]["content"]

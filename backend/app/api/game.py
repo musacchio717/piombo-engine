@@ -7,7 +7,7 @@ from app.core.database import get_db
 from app.models.session import GameSession
 from app.models.character import Character
 from app.models.game_event import GameEvent
-from app.ai.llm_client import MockLLM
+from app.ai.llm_client import MockLLM, OllamaLLM
 from app.ai.graph.lore_graph import LoreGraph
 from app.ai.graph.kcore import KCoreAnalyzer
 from app.ai.graph.pagerank import PersonalizedPageRank
@@ -30,7 +30,7 @@ def _build_game_service(db: Session) -> GameService:
     kcore      = KCoreAnalyzer(lore_graph)
     ppr        = PersonalizedPageRank(lore_graph, kcore)
     retriever  = HybridRetriever(qdrant, ppr, lore_graph)
-    graph      = build_narrator_graph(retriever, llm=MockLLM(), lore_graph=lore_graph)
+    graph      = build_narrator_graph(retriever, llm=OllamaLLM(), lore_graph=lore_graph)
     return GameService(graph, db)
 
 

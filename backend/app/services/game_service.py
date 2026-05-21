@@ -1,11 +1,5 @@
 """
 game_service.py — Logica di business per il flusso /game/action.
-
-Responsabilità:
-- Esegue il grafo LangGraph del narratore
-- Parsea stat_change dall'output XML e aggiorna il personaggio
-- Aggiorna game state (location se l'azione è un move)
-- Salva GameEvent nel DB con metadata (token_count, latency)
 """
 
 from __future__ import annotations
@@ -34,21 +28,12 @@ _STAT_RE = re.compile(
 
 
 def apply_stat_changes(character: Character, stat_change_str: str) -> dict:
-    """
-    Parsa la stringa stat_change e aggiorna i campi del personaggio.
-
-    Formato atteso: "health: -10, suspicion: +5"
-    Restituisce dict con i delta applicati (per metadata).
-    """
     if not stat_change_str or stat_change_str.strip().lower() == "none":
         return {}
-
     applied: dict[str, int] = {}
-
     for match in _STAT_RE.finditer(stat_change_str):
         stat = match.group(1).lower()
         delta = int(match.group(2))
-
         if stat == "health":
             character.health = max(0, min(100, character.health + delta))
             applied["health"] = delta
@@ -58,16 +43,10 @@ def apply_stat_changes(character: Character, stat_change_str: str) -> dict:
         elif stat == "suspicion":
             character.suspicion = max(0, min(100, character.suspicion + delta))
             applied["suspicion"] = delta
-
     return applied
 
 
 def parse_location_from_action(action_str: str) -> str | None:
-    """
-    Estrae la nuova location da una stringa action tipo:
-        "location_change: checkpoint_a1_sud"
-    Restituisce None se l'azione non è un movimento.
-    """
     if not action_str:
         return None
     match = re.match(r"location_change\s*:\s*(\S+)", action_str.strip(), re.IGNORECASE)
@@ -75,15 +54,10 @@ def parse_location_from_action(action_str: str) -> str | None:
 
 
 # ---------------------------------------------------------------------------
-# Game Service principale
+# Game Service
 # ---------------------------------------------------------------------------
 
 class GameService:
-    """
-    Orchestratore del flusso /game/action.
-    Riceve l'input del player, esegue il grafo narratore, aggiorna il DB.
-    """
-
     def __init__(self, narrator_graph, db: Session) -> None:
         self._graph = narrator_graph
         self._db = db
@@ -94,40 +68,16 @@ class GameService:
         player_input: str,
         system_prompt: str = "",
     ) -> dict:
-        """
-        Flusso principale:
-        1. Carica sessione + personaggio
-        2. Esegue narrator graph
-        3. Aggiorna stats + location
-        4. Salva GameEvent
-        5. Restituisce risposta al frontend
-
-        Returns:
-            {
-                "response": str,          # testo narrativo da mostrare al player
-                "stats": dict,            # stats aggiornate
-                "action": str,            # azione parsata
-                "stat_delta": dict,       # delta applicati
-                "errors": list[str],      # eventuali errori non fatali
-                "latency_ms": int,
-            }
-        """
         t0 = time.monotonic()
 
-        # --- 1. Carica stato ---
-        game_session: GameSession | None = (
-            self._db.query(GameSession).filter(GameSession.id == session_id).first()
-        )
+        game_session = self._db.query(GameSession).filter(GameSession.id == session_id).first()
         if game_session is None:
             raise ValueError(f"Sessione {session_id} non trovata")
 
-        character: Character | None = (
-            self._db.query(Character).filter(Character.id == game_session.character_id).first()
-        )
+        character = self._db.query(Character).filter(Character.id == game_session.character_id).first()
         if character is None:
             raise ValueError(f"Personaggio non trovato per sessione {session_id}")
 
-        # --- 2. Esegui grafo narratore ---
         initial_state = {
             "player_input": player_input,
             "current_location_id": game_session.current_location_id or "starting_location",
@@ -136,7 +86,7 @@ class GameService:
                 "reputation": character.reputation,
                 "suspicion":  character.suspicion,
             },
-            "system_prompt": system_prompt or _DEFAULT_SYSTEM_PROMPT,
+            "system_prompt": system_prompt or _build_system_prompt(character),
             "retrieval_context": "",
             "raw_llm_output": "",
             "narrator_output": None,
@@ -147,16 +97,12 @@ class GameService:
         final_state = self._graph.invoke(initial_state)
         narrator_out: NarratorOutput = final_state["narrator_output"]
 
-        # --- 3. Aggiorna stats ---
         stat_delta = apply_stat_changes(character, narrator_out.stat_change)
 
-        # --- 4. Aggiorna location se l'azione lo richiede ---
         new_location = parse_location_from_action(narrator_out.action)
         if new_location:
             game_session.current_location_id = new_location
-            logger.info("location aggiornata: %s", new_location)
 
-        # --- 5. Salva GameEvent ---
         latency_ms = int((time.monotonic() - t0) * 1000)
 
         event = GameEvent(
@@ -176,7 +122,6 @@ class GameService:
         self._db.add(event)
         self._db.commit()
 
-        # --- 6. Check condizioni di fine partita ---
         end_reason = None
         if character.health <= 0:
             end_reason = "death"
@@ -187,7 +132,6 @@ class GameService:
 
         if end_reason:
             self._db.commit()
-            logger.info("partita terminata: %s", end_reason)
 
         return {
             "response":   narrator_out.response,
@@ -205,17 +149,48 @@ class GameService:
 
 
 # ---------------------------------------------------------------------------
-# System prompt di default (placeholder — verrà sostituito con la trama)
+# System prompt con few-shot examples
 # ---------------------------------------------------------------------------
 
-_DEFAULT_SYSTEM_PROMPT = """\
-Sei il narratore di un gioco testuale distopico ambientato in Italia nel 2020.
-Una pandemia ha paralizzato il paese. Il protagonista è Alessandro Rullo,
-capotreno bloccato a Pavia che vuole tornare dalla sua famiglia a Reggio Calabria.
+def _build_system_prompt(character: Character) -> str:
+    """
+    Costruisce il system prompt dinamicamente.
+    Include few-shot examples per garantire aderenza al formato XML.
+    Il contenuto narrativo (trama, personaggi) verrà aggiunto quando
+    la trama sarà definita.
+    """
+    return f"""Sei il narratore di un gioco testuale distopico ambientato in Italia nel 2020.
+Una pandemia ha paralizzato il paese. Il protagonista è {character.name},
+bloccato in una città italiana che vuole lasciare.
 
-Rispondi SEMPRE e SOLO con questo formato XML:
-<think>ragionamento interno breve</think>
-<action>none | location_change: <id> | item_use: <id></action>
-<stat_change>none | health: ±N, suspicion: ±N, reputation: ±N</stat_change>
-<response>testo narrativo in seconda persona, italiano, 3-6 frasi</response>
-"""
+REGOLE ASSOLUTE:
+- Rispondi ESCLUSIVAMENTE con i 4 tag XML sotto. Zero testo prima o dopo.
+- NON usare markdown, asterischi, grassetto o altri formati.
+- NON aggiungere spiegazioni o commenti fuori dai tag.
+- Usa SOLO entità e luoghi presenti nel CONTESTO LORE fornito. Non inventare nomi.
+- Il testo narrativo è sempre in seconda persona singolare, italiano.
+
+FORMATO OBBLIGATORIO:
+<think>ragionamento interno: cosa sta succedendo, come rispondere</think>
+<action>none</action>
+<stat_change>none</stat_change>
+<response>testo narrativo qui, 3-5 frasi, seconda persona</response>
+
+Per <action> usa SOLO: none | location_change: <id_nodo> | item_use: <id_oggetto>
+Per <stat_change> usa SOLO: none | health: ±N | suspicion: ±N | reputation: ±N
+
+--- ESEMPI ---
+
+Input: Busso alla porta del vicino per chiedere informazioni.
+<think>Il giocatore vuole interagire con un vicino. Non ci sono PNG specifici menzionati nel contesto. Rispondo con una scena neutra che mantiene la tensione.</think>
+<action>none</action>
+<stat_change>none</stat_change>
+<response>Bussi tre volte. Silenzio. Poi un rumore di passi cauti oltre il legno. "Chi è?" chiede una voce tesa. Nessuno si fida più dei vicini, in questi giorni.</response>
+
+Input: Provo ad uscire dall'edificio.
+<think>Il giocatore vuole spostarsi. Non è specificata una destinazione valida. Descrivo l'uscita mantenendo la tensione senza cambiare location.</think>
+<action>none</action>
+<stat_change>suspicion: +5</stat_change>
+<response>Spingi il portone. L'aria fredda ti colpisce in faccia insieme alla luce accecante dei riflettori del checkpoint. Due soldati ti osservano dall'altro lato della strada. Meglio non muoversi in modo sospetto.</response>
+
+--- FINE ESEMPI ---"""
