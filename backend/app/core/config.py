@@ -28,6 +28,11 @@ class Settings(BaseSettings):
     LLM_NUM_CTX: int = 8192               # context window — max sicuro per 12GB VRAM
     OLLAMA_BASE_URL: str = "http://localhost:11434"
 
+    # Consistency Checker
+    CHECKER_MODEL: str = "qwen2.5:3b-instruct-q4_K_M"
+    SEMANTIC_CHECK_ENABLED: bool = True
+    SEMANTIC_CHECK_BLOCKING: bool = False  # True = retry, False = warning only
+
     class Config:
         env_file = ".env"
 

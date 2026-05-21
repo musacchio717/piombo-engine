@@ -166,6 +166,45 @@ def node_finalize(state: NarratorState) -> dict:
     return {}
 
 
+def node_semantic_check(state: NarratorState, semantic_checker: "SemanticChecker") -> dict:
+    """
+    Semantic grounding check (Fase 2 — LLM-as-Judge).
+    Usa Qwen2.5-3B come judge per verificare che la response
+    sia grounded nel contesto lore retrieved.
+
+    Comportamento configurabile:
+        - blocking=False (default): warning, non blocca
+        - blocking=True: forza retry se non grounded
+    """
+    from app.ai.agents.semantic_checker import SemanticChecker
+    out: NarratorOutput | None = state["narrator_output"]
+
+    if out is None or not out.is_valid:
+        return {}  # già gestito da node_finalize
+
+    result = semantic_checker.check(
+        retrieval_context=state["retrieval_context"],
+        narrator_response=out.response,
+    )
+
+    if result.skipped:
+        logger.info("node_semantic_check: skipped — %s", result.reason)
+        return {}
+
+    errors = []
+    if not result.grounded:
+        msg = f"semantic check: NOT grounded — {result.reason}"
+        if semantic_checker.blocking:
+            logger.warning("%s — forcing retry", msg)
+            errors.append(msg)
+            return {"errors": errors, "narrator_output": None}
+        else:
+            logger.warning("%s — soft warning", msg)
+            errors.append(msg)
+
+    return {"errors": errors}
+
+
 # ---------------------------------------------------------------------------
 # Factory
 # ---------------------------------------------------------------------------
@@ -174,26 +213,36 @@ def build_narrator_graph(
     retriever: HybridRetriever,
     llm: LLMClient | None = None,
     lore_graph=None,
+    semantic_checker=None,
 ) -> StateGraph:
     """
     Costruisce e compila il grafo LangGraph del narratore.
 
+    Grafo:
+        retrieve → generate → check → finalize → semantic_check → END
+                                 ↑         |
+                                 └─────────┘ (retry se invalido)
+
     Args:
-        retriever:  HybridRetriever già inizializzato
-        llm:        client LLM da usare (default: MockLLM)
-        lore_graph: LoreGraph per il ConsistencyChecker (opzionale)
+        retriever:        HybridRetriever già inizializzato
+        llm:              client LLM da usare (default: MockLLM)
+        lore_graph:       LoreGraph per ConsistencyChecker deterministico
+        semantic_checker: SemanticChecker LLM-based (opzionale)
     """
     from app.ai.agents.consistency import ConsistencyChecker
+    from app.ai.agents.semantic_checker import SemanticChecker
 
     if llm is None:
         llm = MockLLM()
 
     checker = ConsistencyChecker(lore_graph) if lore_graph else None
 
+    if semantic_checker is None:
+        semantic_checker = SemanticChecker()
+
     def _check_node(s):
         if checker:
             return node_check(s, checker)
-        # fallback senza checker: solo validazione sintattica
         out = s["narrator_output"]
         if out is None or not out.is_valid:
             return {"errors": ["output non valido"]}
@@ -201,12 +250,13 @@ def build_narrator_graph(
 
     graph = StateGraph(NarratorState)
 
-    # Nodi (lambda per iniettare dipendenze senza classi)
-    graph.add_node("retrieve",  lambda s: node_retrieve(s, retriever))
-    graph.add_node("generate",  lambda s: node_generate(s, llm))
-    graph.add_node("check",     _check_node)
-    graph.add_node("retry",     node_retry)
-    graph.add_node("finalize",  node_finalize)
+    # Nodi
+    graph.add_node("retrieve",       lambda s: node_retrieve(s, retriever))
+    graph.add_node("generate",       lambda s: node_generate(s, llm))
+    graph.add_node("check",          _check_node)
+    graph.add_node("retry",          node_retry)
+    graph.add_node("finalize",       node_finalize)
+    graph.add_node("semantic_check", lambda s: node_semantic_check(s, semantic_checker))
 
     # Edges
     graph.set_entry_point("retrieve")
@@ -217,6 +267,7 @@ def build_narrator_graph(
         "finalize": "finalize",
     })
     graph.add_edge("retry", "generate")
-    graph.add_edge("finalize", END)
+    graph.add_edge("finalize", "semantic_check")
+    graph.add_edge("semantic_check", END)
 
     return graph.compile()
