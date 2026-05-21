@@ -2,10 +2,12 @@ services:
   neo4j:
     image: neo4j:5.15-community
     container_name: piombo-neo4j
+    restart: on-failure
     environment:
       NEO4J_AUTH: neo4j/piombo-password
       NEO4J_server_memory_heap_initial__size: 512m
       NEO4J_server_memory_heap_max__size: 1G
+      NEO4J_db_transaction_timeout: 30s
     ports:
       - "7687:7687"
       - "7474:7474"
@@ -15,14 +17,15 @@ services:
       - piombo-net
     healthcheck:
       test: ["CMD", "cypher-shell", "-u", "neo4j", "-p", "piombo-password", "RETURN 1"]
-      interval: 10s
+      interval: 15s
       timeout: 10s
-      retries: 5
-      start_period: 30s
+      retries: 10
+      start_period: 60s
 
   qdrant:
     image: qdrant/qdrant:latest
     container_name: piombo-qdrant
+    restart: unless-stopped
     ports:
       - "6333:6333"
       - "6334:6334"
