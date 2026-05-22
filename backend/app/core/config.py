@@ -24,13 +24,13 @@ class Settings(BaseSettings):
     # LLM
     LLM_MODEL: str = "mistral-nemo:12b-instruct-2407-q4_K_M"           # switch: "qwen3:8b"
     LLM_TEMPERATURE: float = 0.7
-    LLM_MAX_TOKENS: int = 1024
-    LLM_NUM_CTX: int = 8192               # context window — max sicuro per 12GB VRAM
+    LLM_MAX_TOKENS: int = 400
+    LLM_NUM_CTX: int = 4096               # context window — max sicuro per 12GB VRAM
     OLLAMA_BASE_URL: str = "http://localhost:11434"
 
     # Consistency Checker
     CHECKER_MODEL: str = "qwen2.5:3b-instruct-q4_K_M"
-    SEMANTIC_CHECK_ENABLED: bool = True
+    SEMANTIC_CHECK_ENABLED: bool = False
     SEMANTIC_CHECK_BLOCKING: bool = False  # True = retry, False = warning only
 
     class Config:

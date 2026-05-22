@@ -117,6 +117,10 @@ class LoreGraph:
         # Seconda passata: relazioni (tutti i file caricati)
         total_rels = self._ingest_all_relations(seed_dir)
         logger.info("Ingested %d relations total", total_rels)
+        relations_file = seed_dir / "relations.json"
+        if relations_file.exists():
+            n_explicit = self._ingest_relations_file(relations_file)
+            logger.info("Ingested %d explicit relations from relations.json", n_explicit)
 
         return counts
 
@@ -151,6 +155,27 @@ class LoreGraph:
                 for rel in rels:
                     if self._create_relation(entity["id"], rel):
                         total += 1
+        return total
+    
+    def _ingest_relations_file(self, filepath: Path) -> int:
+        """..."""
+        data = json.loads(filepath.read_text(encoding="utf-8"))
+        relations = data if isinstance(data, list) else data.get("relations", [])
+        total = 0
+        for rel in relations:
+            source_id = rel.get("from")
+            if not source_id:
+                continue
+            success = self._create_relation(source_id, {
+                "type": rel.get("type"),
+                "target_id": rel.get("to"),
+                "properties": {
+                    **rel.get("properties", {}),
+                    "relation_id": rel.get("id", "")
+                }
+            })
+            if success:
+                total += 1
         return total
 
     def _create_relation(self, source_id: str, rel: dict) -> bool:
@@ -324,7 +349,7 @@ class LoreGraph:
 
 
 # ---------------------------------------------------------------------------
-# Helpers interni
+# Helpers interni — versione aggiornata per schema core/state
 # ---------------------------------------------------------------------------
 
 def _flatten_entity(entity: dict) -> dict:
@@ -334,18 +359,57 @@ def _flatten_entity(entity: dict) -> dict:
     - list di scalari → mantenuti (Neo4j li supporta)
     - list di dict → serializzati a JSON string
     - campo "relations" → rimosso (gestito separatamente)
+
+    Aggiornamento schema core/state:
+    - Se esiste `core` (dict), estrae `name` e genera `description` come
+      proprietà flat per compatibilità con search_nodes_by_name e qdrant_ingestor.
+    - Se esiste `state` (dict), estrae `status` e `current_location` come flat.
+    - I dict originali `core` e `state` rimangono come JSON string per recupero completo.
     """
     result: dict = {}
     for key, value in entity.items():
         if key == "relations":
-            continue  # le relazioni le gestiamo in _ingest_all_relations
-        if isinstance(value, dict):
+            continue
+        if key == "core" and isinstance(value, dict):
+            # Campi flat per compatibilità query esistenti
+            result["name"] = value.get("name", "")
+            result["description"] = _build_description_from_core(value)
+            # Dict completo serializzato per recupero integrale
+            result["core"] = json.dumps(value, ensure_ascii=False)
+        elif key == "state" and isinstance(value, dict):
+            result["status"] = value.get("status", "unknown")
+            result["current_location"] = value.get("current_location", "")
+            result["state"] = json.dumps(value, ensure_ascii=False)
+        elif isinstance(value, dict):
             result[key] = json.dumps(value, ensure_ascii=False)
         elif isinstance(value, list):
             if value and isinstance(value[0], dict):
                 result[key] = json.dumps(value, ensure_ascii=False)
             else:
-                result[key] = value  # lista di scalari: OK
+                result[key] = value  # lista di scalari: OK per Neo4j
         else:
             result[key] = value
     return result
+
+
+def _build_description_from_core(core: dict) -> str:
+    """
+    Genera una description testuale da `core` per l'embedding in Qdrant.
+    Concatena i campi narrativamente rilevanti separati da ' | '.
+    """
+    parts: list[str] = []
+    if bio := core.get("biography"):
+        parts.append(bio)
+    if occ := core.get("occupation"):
+        parts.append(f"Occupazione: {occ}")
+    if traits := core.get("personality_traits"):
+        parts.append("Tratti: " + ", ".join(traits))
+    if values := core.get("core_values"):
+        parts.append("Valori: " + ", ".join(values))
+    if aversions := core.get("core_aversions"):
+        parts.append("Avversioni: " + ", ".join(aversions))
+    if style := core.get("speech_style"):
+        parts.append(f"Voce narrativa: {style}")
+    if knowledge := core.get("special_knowledge"):
+        parts.append("Competenze: " + ", ".join(knowledge))
+    return " | ".join(parts)

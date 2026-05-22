@@ -1,52 +1,44 @@
-{
-  "events": [
-    {
-      "id": "pandemia_2020",
-      "name": "La Grande Pandemia",
-      "date_ucronic": "2020-03",
-      "description": "Un virus molto più letale del COVID-19 colpisce il mondo. Nessun vaccino verrà sviluppato per anni.",
-      "impact": "Collasso parziale degli stati nazionali. Instaurazione di regimi di emergenza.",
-      "k_core": 3,
-      "relations": [
-        { "type": "OCCURRED_IN", "target_id": "milano_centro" },
-        { "type": "CAUSED_BY", "target_id": "governo_emergenza" }
-      ]
-    },
-    {
-      "id": "quarantena_forzata",
-      "name": "Quarantena Forzata Nazionale",
-      "date_ucronic": "2020-06",
-      "description": "Il governo italiano impone quarantena permanente con zone di accesso controllato.",
-      "impact": "Divisione del territorio in zone colorate. Istituzione dei checkpoint militari.",
-      "k_core": 3,
-      "relations": [
-        { "type": "OCCURRED_IN", "target_id": "milano_centro" },
-        { "type": "CAUSED_BY", "target_id": "governo_emergenza" }
-      ]
-    },
-    {
-      "id": "nascita_resistenza",
-      "name": "Nascita della Resistenza",
-      "date_ucronic": "2020-09",
-      "description": "Gruppi civili iniziano a organizzarsi contro il regime di emergenza.",
-      "impact": "Formazione della Colonna dei Sopravvissuti Nord e altre fazioni.",
-      "k_core": 2,
-      "relations": [
-        { "type": "OCCURRED_IN", "target_id": "cattedrale_sotterranea" },
-        { "type": "CAUSED_BY", "target_id": "colonna_nord" }
-      ]
-    },
-    {
-      "id": "progetto_vaccino",
-      "name": "Progetto Vaccino Clandestino",
-      "date_ucronic": "2021-01",
-      "description": "Il Professor Rossi avvia ricerche segrete sul vaccino a Pavia, fuori dal controllo del regime.",
-      "impact": "Speranza per la fine della pandemia. Obiettivo strategico di tutte le fazioni.",
-      "k_core": 3,
-      "relations": [
-        { "type": "OCCURRED_IN", "target_id": "laboratorio_pavia" },
-        { "type": "CAUSED_BY", "target_id": "laboratorio_pavia" }
-      ]
-    }
-  ]
-}
+[
+  {
+    "id": "licenziamento_trenitalia",
+    "type": "Event",
+    "name": "Licenziamento da Trenitalia",
+    "date_ucronic": "Marzo 2020 — settimana 2",
+    "description": "Alessandro Rullo viene sospeso dal contratto di formazione come capotreno. Trenitalia blocca le attività non essenziali con l'aggravarsi della pandemia. Alessandro si reca in stazione a Pavia per ritirare i propri effetti personali dall'armadietto. L'evento lo lascia senza reddito, senza occupazione e con il solo obiettivo di tornare a Reggio Calabria dalla famiglia.",
+    "impact": "Innesca il viaggio. Rimuove l'ancora economica e professionale di Alessandro a Pavia.",
+    "location_id": "pavia",
+    "relations": [
+      {
+        "type": "OCCURRED_IN",
+        "target_id": "pavia",
+        "properties": {}
+      },
+      {
+        "type": "INVOLVED_IN",
+        "target_id": "licenziamento_trenitalia",
+        "properties": {"role": "soggetto"}
+      }
+    ]
+  },
+  {
+    "id": "inoculazione_pavia",
+    "type": "Event",
+    "name": "Inoculazione del siero sperimentale",
+    "date_ucronic": "Marzo 2020 — settimana 2, stesso giorno del licenziamento",
+    "description": "Nella stazione di Pavia deserta, Alessandro viene avvicinato da un ricercatore del Policlinico San Matteo in fuga. L'uomo, ferito da colpi d'arma da fuoco, si rifugia nel deposito del personale ferroviario. Prima di morire o essere catturato, inietta ad Alessandro un siero sperimentale nel collo. Le sue ultime parole: 'Non farti aprire.' Alessandro non sa cosa gli sia stato somministrato. Da questo momento è inconsapevolmente portatore del vaccino sperimentale contro la pandemia. Diverse entità iniziano a cercarlo senza che lui lo sappia.",
+    "impact": "Evento cardine della trama. Trasforma Alessandro da passeggero della storia a suo involontario protagonista. Attiva la meccanica di ricerca da parte di fazioni esterne.",
+    "location_id": "pavia",
+    "relations": [
+      {
+        "type": "OCCURRED_IN",
+        "target_id": "pavia",
+        "properties": {}
+      },
+      {
+        "type": "INVOLVED_IN",
+        "target_id": "inoculazione_pavia",
+        "properties": {"role": "portatore involontario"}
+      }
+    ]
+  }
+]

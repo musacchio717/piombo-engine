@@ -1,0 +1,136 @@
+[
+  {
+    "id": "rel_ale_davide",
+    "from": "alessandro_rullo",
+    "to": "davide_rullo",
+    "type": "KNOWS",
+    "properties": {
+      "relation_type": "fratello",
+      "trust_level": 95,
+      "dynamic": "conflittuale in superficie, profondissimo sotto. Si punzecchiano e litigano ma si proteggono a vicenda.",
+      "status": "active"
+    }
+  },
+  {
+    "id": "rel_ale_lucar",
+    "from": "alessandro_rullo",
+    "to": "luca_r",
+    "type": "KNOWS",
+    "properties": {
+      "relation_type": "cugino",
+      "trust_level": 80,
+      "dynamic": "affettuoso ma spesso esasperato dalla sbadataggine di Luca R.",
+      "status": "active"
+    }
+  },
+  {
+    "id": "rel_ale_lucaf",
+    "from": "alessandro_rullo",
+    "to": "luca_f",
+    "type": "KNOWS",
+    "properties": {
+      "relation_type": "amico",
+      "trust_level": 75,
+      "dynamic": "legame forte e rapido, ma tensione ideologica costante. Si stimano e si scontrano.",
+      "status": "active"
+    }
+  },
+  {
+    "id": "rel_ale_gesualdo",
+    "from": "alessandro_rullo",
+    "to": "gesualdo",
+    "type": "KNOWS",
+    "properties": {
+      "relation_type": "amico d'infanzia",
+      "trust_level": 90,
+      "dynamic": "radici comuni a Reggio. Gesualdo conosce Alessandro prima di Pavia, prima dell'università.",
+      "status": "active"
+    }
+  },
+  {
+    "id": "rel_ale_ciccio",
+    "from": "alessandro_rullo",
+    "to": "ciccio",
+    "type": "KNOWS",
+    "properties": {
+      "relation_type": "amico",
+      "trust_level": 80,
+      "dynamic": "rispetto reciproco. Alessandro apprezza l'autenticità di Ciccio anche quando lo trova lento o astratto.",
+      "status": "active"
+    }
+  },
+  {
+    "id": "rel_ale_alessia",
+    "from": "alessandro_rullo",
+    "to": "alessia",
+    "type": "KNOWS",
+    "properties": {
+      "relation_type": "ex fidanzata",
+      "trust_level": 30,
+      "dynamic": "irrisolto. Alessandro è ancora attratto da lei ma ogni interazione finisce in conflitto. Tensione costante tra desiderio e frustrazione.",
+      "status": "strained"
+    }
+  },
+  {
+    "id": "rel_davide_letizia",
+    "from": "davide_rullo",
+    "to": "letizia",
+    "type": "KNOWS",
+    "properties": {
+      "relation_type": "fidanzati",
+      "trust_level": 95,
+      "dynamic": "solido, razionale, complice. Letizia è la persona più equilibrata nella vita di Davide.",
+      "status": "active"
+    }
+  },
+  {
+    "id": "rel_ale_gruppo",
+    "from": "alessandro_rullo",
+    "to": "gruppo_pavia",
+    "type": "MEMBER_OF",
+    "properties": {
+      "role": "leader informale",
+      "status": "active"
+    }
+  },
+  {
+    "id": "rel_davide_gruppo",
+    "from": "davide_rullo",
+    "to": "gruppo_pavia",
+    "type": "MEMBER_OF",
+    "properties": {
+      "role": "membro",
+      "status": "active"
+    }
+  },
+  {
+    "id": "rel_lucaf_gruppo",
+    "from": "luca_f",
+    "to": "gruppo_pavia",
+    "type": "MEMBER_OF",
+    "properties": {
+      "role": "membro",
+      "status": "active"
+    }
+  },
+  {
+    "id": "rel_gesualdo_gruppo",
+    "from": "gesualdo",
+    "to": "gruppo_pavia",
+    "type": "MEMBER_OF",
+    "properties": {
+      "role": "membro",
+      "status": "active"
+    }
+  },
+  {
+    "id": "rel_ciccio_gruppo",
+    "from": "ciccio",
+    "to": "gruppo_pavia",
+    "type": "MEMBER_OF",
+    "properties": {
+      "role": "membro",
+      "status": "active"
+    }
+  }
+]

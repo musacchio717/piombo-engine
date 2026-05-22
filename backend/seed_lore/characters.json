@@ -1,78 +1,395 @@
 {
   "characters": [
     {
-      "id": "marco_ferretti",
-      "name": "Marco Ferretti",
-      "role": "Medico Underground",
-      "faction_id": "colonna_nord",
-      "description": "Medico che gestisce una clinica segreta a Milano Nord.",
-      "status": "alive",
-      "k_core": 3,
-      "relations": [
-        { "type": "MEMBER_OF", "target_id": "colonna_nord" },
-        { "type": "LOCATED_IN", "target_id": "milano_nord_clinica" },
-        { "type": "KNOWS", "target_id": "anna_rossi", "properties": { "trust_level": 8 } },
-        { "type": "POSSESSES", "target_id": "kit_medico" }
-      ]
+      "id": "alessandro_rullo",
+      "type": "Character",
+      "role": "protagonist",
+      "core": {
+        "name": "Alessandro Rullo",
+        "birth_year": 1995,
+        "origin": "Reggio Calabria",
+        "occupation": "Capotreno in formazione (Trenitalia), studente di Comunicazione all'Università di Pavia",
+        "biography": "Nato e cresciuto a Reggio Calabria, si è trasferito a Pavia per l'università. Vive in città dal periodo della laurea triennale. La famiglia è rimasta in Calabria. Ha un fratello, Davide, e un cugino, Luca R. A Pavia ha costruito un gruppo di amici stretti durante gli anni universitari: Luca F, Cicco, Gesualdo.",
+        "personality_traits": [
+          "carismatico",
+          "espansivo",
+          "teatrale",
+          "impulsivo",
+          "irascibile",
+          "don giovanni",
+          "istintivo"
+        ],
+        "core_values": [
+          "famiglia",
+          "amicizia",
+          "lealtà personale",
+          "ritorno a casa",
+          "donne"
+        ],
+        "core_aversions": [
+          "moralismo",
+          "attivismo ideologico",
+          "prediche e cause sociali",
+          "essere costretto in ruoli che non ha scelto"
+        ],
+        "speech_style": "Italiano colloquiale con cadenza reggina che riemerge sotto stress. Tende a discorsi teatrali ed esagerati. Sotto pressione le frasi si accorciano e diventano taglienti."
+      },
+      "state": {
+        "status": "alive",
+        "current_location": "pavia",
+        "stats": {
+          "health": 100,
+          "suspicion": 5,
+          "reputation": 0
+        },
+        "faction_memberships": [],
+        "acquired_traits": [],
+        "known_secrets": [],
+        "inventory": []
+      }
     },
     {
-      "id": "anna_rossi",
-      "name": "Anna Rossi",
-      "role": "Staffetta Resistenza",
-      "faction_id": "colonna_nord",
-      "description": "Ragazza ventenne che trasporta informazioni tra i checkpoint di Milano.",
-      "status": "alive",
-      "k_core": 2,
-      "relations": [
-        { "type": "MEMBER_OF", "target_id": "colonna_nord" },
-        { "type": "LOCATED_IN", "target_id": "cattedrale_sotterranea" },
-        { "type": "KNOWS", "target_id": "marco_ferretti", "properties": { "trust_level": 8 } },
-        { "type": "POSSESSES", "target_id": "radio_clandestina" }
-      ]
+      "id": "luca_f",
+      "type": "Character",
+      "role": "ally",
+      "core": {
+        "name": "Luca F",
+        "birth_year": 1997,
+        "origin": "Roma",
+        "occupation": "Studente di Ingegneria Informatica, Università di Pavia",
+        "biography": "Romano, si è trasferito a Pavia per l'università. Amico recente di Alessandro, con cui ha costruito un legame rapido e solido nonostante le profonde differenze caratteriali. Fa parte del gruppo di Pavia insieme a Cicco e Gesualdo.",
+        "personality_traits": [
+          "razionale",
+          "colto",
+          "brillante",
+          "carismatico",
+          "memoria eccezionale",
+          "tendenza alla sovraanalisi",
+          "leggero disturbo dell'attenzione",
+          "ideologicamente sensibile",
+          "irascibile",
+          "poco empatico"
+        ],
+        "core_values": [
+          "giustizia sociale",
+          "diritti civili",
+          "coerenza intellettuale",
+          "lucidità collettiva"
+        ],
+        "core_aversions": [
+          "superficialità",
+          "egoismo travestito da pragmatismo",
+          "indifferenza politica",
+          "noia"
+        ],
+        "speech_style": "Rapido, pieno di riferimenti e connessioni. Sa essere brillante e coinvolgente, ma in modalità argomentativa diventa denso e difficile da interrompere. Tende a collegare la situazione immediata a contesti più ampi anche quando non è il momento."
+      },
+      "state": {
+        "status": "alive",
+        "current_location": "pavia",
+        "stats": {
+          "health": 100,
+          "suspicion": 5,
+          "reputation": 0
+        },
+        "faction_memberships": [],
+        "acquired_traits": [],
+        "known_secrets": [],
+        "inventory": []
+      }
     },
     {
-      "id": "tenente_marini",
-      "name": "Tenente Marini",
-      "role": "Comandante Quarantena",
-      "faction_id": "governo_emergenza",
-      "description": "Militare leale al regime. Controlla il checkpoint A1 Sud Milano.",
-      "status": "alive",
-      "k_core": 2,
-      "relations": [
-        { "type": "MEMBER_OF", "target_id": "governo_emergenza" },
-        { "type": "LOCATED_IN", "target_id": "checkpoint_a1_sud" },
-        { "type": "POSSESSES", "target_id": "mappa_checkpoint" }
-      ]
+      "id": "davide_rullo",
+      "type": "Character",
+      "role": "ally",
+      "core": {
+        "name": "Davide Rullo",
+        "birth_year": 1997,
+        "origin": "Reggio Calabria",
+        "occupation": "Studente di Lingue, Università di Pavia. Laurea prevista aprile 2020.",
+        "biography": "Fratello minore di Alessandro Rullo. Nato e cresciuto a Reggio Calabria, si è trasferito a Pavia per l'università. Nel marzo 2020 è in dirittura d'arrivo con la laurea in Lingue, che sosterrà in forma telematica causa pandemia.",
+        "personality_traits": [
+          "intelligente",
+          "razionale",
+          "veloce mentalmente",
+          "discontinuo",
+          "ironico",
+          "si annoia facilmente",
+          "emotivamente coinvolto ma restio ad ammetterlo"
+        ],
+        "core_values": [
+          "famiglia",
+          "lealtà affettiva",
+          "completare ciò che ha iniziato",
+          "la fidanzata"
+        ],
+        "core_aversions": [
+          "noia prolungata",
+          "patetismo",
+          "ammettere di tenere alle cose"
+        ],
+        "speech_style": "Secco, ironico, intelligente. Tende a sdrammatizzare anche le situazioni gravi con battute calibrate. Quando è emotivamente colpito lo nasconde con il sarcasmo. Raramente parla in modo diretto dei sentimenti."
+      },
+      "state": {
+        "status": "alive",
+        "current_location": "pavia",
+        "stats": {
+          "health": 100,
+          "suspicion": 5,
+          "reputation": 0
+        },
+        "faction_memberships": [],
+        "acquired_traits": [],
+        "known_secrets": [],
+        "inventory": []
+      }
     },
     {
-      "id": "professor_rossi",
-      "name": "Professor Giancarlo Rossi",
-      "role": "Ricercatore Vaccino",
-      "faction_id": "laboratorio_pavia",
-      "description": "Scienziato che lavora al vaccino nel laboratorio di Pavia.",
-      "status": "alive",
-      "k_core": 3,
-      "relations": [
-        { "type": "MEMBER_OF", "target_id": "laboratorio_pavia" },
-        { "type": "LOCATED_IN", "target_id": "laboratorio_pavia" },
-        { "type": "POSSESSES", "target_id": "vaccino_sperimentale" },
-        { "type": "INVOLVED_IN", "target_id": "progetto_vaccino" }
-      ]
+      "id": "luca_r",
+      "type": "Character",
+      "role": "ally",
+      "core": {
+        "name": "Luca R",
+        "birth_year": 1997,
+        "origin": "Reggio Calabria",
+        "occupation": "Studente universitario di Lingue, attualmente in programma Erasmus a Wuppertal, Germania",
+        "biography": "Cugino di Alessandro e Davide Rullo. Cresciuto a Reggio Calabria, nel 2020 si trova a Wuppertal per un periodo Erasmus. Letterato, appassionato di libri e pensiero, è il più riflessivo del gruppo familiare.",
+        "personality_traits": [
+          "riflessivo",
+          "colto",
+          "letterato",
+          "sensibile",
+          "contemplativo",
+          "sbadato in modo estremo",
+          "tende a trovare significati profondi nelle cose",
+          "lento a comprendere le situazioni",
+          "scarsa attitudine nel riconoscere il pericolo"
+        ],
+        "core_values": [
+          "cultura",
+          "legami familiari",
+          "comprensione del mondo",
+          "bellezza nelle cose"
+        ],
+        "core_aversions": [
+          "fretta imposta",
+          "superficialità",
+          "dover essere pratici a tutti i costi"
+        ],
+        "speech_style": "Letterario e riflessivo, tende a connettere la realtà immediata a libri, immagini e pensieri più ampi. Si interrompe con dimenticanze improvvise e assurde che spezzano anche i discorsi più profondi. A volte prolisso"
+      },
+      "state": {
+        "status": "alive",
+        "current_location": "wuppertal",
+        "stats": {
+          "health": 100,
+          "suspicion": 0,
+          "reputation": 0
+        },
+        "faction_memberships": [],
+        "acquired_traits": [],
+        "known_secrets": [],
+        "inventory": []
+      }
     },
     {
-      "id": "sara_neri",
-      "name": "Sara Neri",
-      "role": "Hacker",
-      "faction_id": "rete_digitale",
-      "description": "Esperta di informatica che infiltra i sistemi del regime.",
-      "status": "alive",
-      "k_core": 2,
-      "relations": [
-        { "type": "MEMBER_OF", "target_id": "rete_digitale" },
-        { "type": "LOCATED_IN", "target_id": "locanda_abbandonata" },
-        { "type": "KNOWS", "target_id": "anna_rossi", "properties": { "trust_level": 5 } },
-        { "type": "POSSESSES", "target_id": "lasciapassare_falso" }
-      ]
+      "id": "gesualdo",
+      "type": "Character",
+      "role": "ally",
+      "core": {
+        "name": "Gesualdo",
+        "birth_year": 1996,
+        "origin": "Reggio Calabria",
+        "occupation": "Studente di Farmacia, Università di Pavia. Attività parallela: trasporto cani su commissione in tutta Italia.",
+        "biography": "Amico d'infanzia di Alessandro Rullo, si sono conosciuti a Reggio Calabria prima dell'università. Entrambi si sono ritrovati a Pavia per gli studi. La sua attività di consegna cani lo ha portato a percorrere strade secondarie e conoscere percorsi alternativi in tutta la penisola.",
+        "personality_traits": [
+          "energico",
+          "sportivo",
+          "vitale",
+          "pragmatico",
+          "organizzatore improvvisato",
+          "pacificatore",
+          "esagerato nel racconto",
+          "tende ad amplificare fatti e pericoli"
+        ],
+        "core_values": [
+          "amicizia",
+          "azione concreta",
+          "movimento",
+          "risolvere i problemi agendo"
+        ],
+        "core_aversions": [
+          "conflitti diretti",
+          "stasi prolungata",
+          "discussioni teoriche senza sbocco pratico"
+        ],
+        "speech_style": "Energico, entusiasta, con tono sempre leggermente più grande della realtà. Le sue storie sono vere ma gonfiate. Difficile capire dove finisce il fatto e dove inizia l'epica personale.",
+        "special_knowledge": [
+          "strade secondarie e percorsi alternativi lungo la penisola",
+          "farmacologia di base",
+          "meccanica motociclistica elementare"
+        ]
+      },
+      "state": {
+        "status": "alive",
+        "current_location": "pavia",
+        "stats": {
+          "health": 100,
+          "suspicion": 5,
+          "reputation": 0
+        },
+        "faction_memberships": [],
+        "acquired_traits": [],
+        "known_secrets": [],
+        "inventory": [
+          "moto"
+        ]
+      }
+    },
+    {
+      "id": "ciccio",
+      "type": "Character",
+      "role": "ally",
+      "core": {
+        "name": "Ciccio",
+        "birth_year": 1997,
+        "origin": "Reggio Calabria",
+        "occupation": "Studente di Chimica, Università di Pavia. Prossimo alla laurea.",
+        "biography": "Amico di Alessandro e del gruppo di Pavia. Cresciuto a Reggio Calabria, si è trasferito a Pavia per studiare Chimica. Fisicamente cagionevole, mentalmente solido. Tendenza cronica a sviluppare malanni nel momento meno opportuno.",
+        "personality_traits": [
+          "autentico",
+          "diretto",
+          "filosofo istintivo",
+          "distaccato in superficie",
+          "profondamente leale",
+          "non costruisce maschere sociali",
+          "fisicamente fragile e cagionevole",
+          "stranamente sbadato"
+        ],
+        "core_values": [
+          "verità",
+          "lealtà silenziosa",
+          "rigore intellettuale",
+          "autenticità"
+        ],
+        "core_aversions": [
+          "teatralità inutile",
+          "apparenze",
+          "risposte facili a domande difficili"
+        ],
+        "speech_style": "Diretto, piano, spesso filosofico. Non si preoccupa di risultare brillante o simpatico. Può inserire un'osservazione profonda e una lamentela fisica nella stessa frase senza percepire la contraddizione.",
+        "special_knowledge": [
+          "chimica organica e farmacologica",
+          "composizione e comportamento di composti biologici",
+          "ragionamento scientifico applicato"
+        ]
+      },
+      "state": {
+        "status": "alive",
+        "current_location": "pavia",
+        "stats": {
+          "health": 80,
+          "suspicion": 5,
+          "reputation": 0
+        },
+        "faction_memberships": [],
+        "acquired_traits": [
+          "cagionevole_cronico"
+        ],
+        "known_secrets": [],
+        "inventory": []
+      }
+    },
+    {
+      "id": "alessia",
+      "type": "Character",
+      "role": "antagonist",
+      "core": {
+        "name": "Alessia",
+        "birth_year": 1998,
+        "origin": "Bologna",
+        "occupation": "Non specificata",
+        "biography": "Ex fidanzata di Alessandro Rullo. Il loro rapporto si è concluso senza una vera chiusura. Vive a Bologna, città che Alessandro ha sempre percepito come estranea al proprio carattere.",
+        "personality_traits": [
+          "fastidiosa",
+          "petulante",
+          "insistente",
+          "memoria emotiva lunghissima",
+          "incapace di ammettere i propri sentimenti",
+          "tende a trasformare tutto in questione personale",
+          "attacca invece di confessare",
+          "provoca invece di dialogare"
+        ],
+        "core_values": [
+          "non ammettere vulnerabilità",
+          "avere ragione nei conflitti",
+          "mantenere il controllo emotivo in apparenza"
+        ],
+        "core_aversions": [
+          "ammettere di essere ancora coinvolta",
+          "lasciare andare senza aver detto l'ultima parola",
+          "essere ignorata"
+        ],
+        "speech_style": "Precisa, pungente, con memoria lunga su frasi e dettagli del passato. Usa le parole come leva emotiva. Nei momenti in cui è sinceramente preoccupata, il tono si abbassa e si incrina leggermente prima di tornare aggressivo."
+      },
+      "state": {
+        "status": "alive",
+        "current_location": "bologna",
+        "stats": {
+          "health": 100,
+          "suspicion": 0,
+          "reputation": 0
+        },
+        "faction_memberships": [],
+        "acquired_traits": [],
+        "known_secrets": [],
+        "inventory": []
+      }
+    },
+    {
+      "id": "letizia",
+      "type": "Character",
+      "role": "ally",
+      "core": {
+        "name": "Letizia",
+        "birth_year": 1997,
+        "origin": "Reggio Calabria",
+        "occupation": "Ingegnera Civile neolaureata ",
+        "biography": "Fidanzata di Davide Rullo. Non si trova a Pavia ma è pienamente integrata nel gruppo di amici. La sua posizione fisica a distanza non la isola dal gruppo: è spesso il riferimento più lucido nelle situazioni critiche.",
+        "personality_traits": [
+          "intelligentissima",
+          "brillante",
+          "ironica",
+          "sagace",
+          "razionale",
+          "concreta",
+          "a volte eccessivamente logica in contesti emotivi"
+        ],
+        "core_values": [
+          "risolvere i problemi",
+          "lealtà al gruppo",
+          "chiarezza e pragmatismo"
+        ],
+        "core_aversions": [
+          "irrazionalità evitabile",
+          "ego che blocca le soluzioni",
+          "decisioni prese di pancia quando esistono alternative migliori"
+        ],
+        "speech_style": "Diretta, ironica, spesso la più lucida nella stanza. Tende a smontare i problemi in componenti prima ancora che gli altri abbiano finito di descriverli. L'ironia è il suo modo di essere presente senza risultare arrogante."
+      },
+      "state": {
+        "status": "alive",
+        "current_location": "roccaforte_del_greco",
+        "stats": {
+          "health": 100,
+          "suspicion": 0,
+          "reputation": 0
+        },
+        "faction_memberships": [],
+        "acquired_traits": [],
+        "known_secrets": [],
+        "inventory": []
+      }
     }
   ]
 }

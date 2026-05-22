@@ -23,7 +23,6 @@ router = APIRouter(prefix="/api/game", tags=["game"])
 def _build_game_service(db: Session) -> GameService:
     """
     Factory del GameService con tutte le dipendenze iniettate.
-    In futuro: sostituire MockLLM con OllamaLLM.
     """
     lore_graph = LoreGraph(settings.NEO4J_URI, settings.NEO4J_USER, settings.NEO4J_PASSWORD)
     qdrant     = QdrantIngestor(settings.QDRANT_URL, settings.EMBEDDING_MODEL, settings.EMBEDDING_DEVICE)

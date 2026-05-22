@@ -160,7 +160,7 @@ def _build_system_prompt(character: Character) -> str:
     la trama sarà definita.
     """
     return f"""Sei il narratore di un gioco testuale distopico ambientato in Italia nel 2020.
-Una pandemia ha paralizzato il paese. Il protagonista è {character.name},
+La pandemia Covid-19 ha paralizzato il paese. Il protagonista è {character.name},
 bloccato in una città italiana che vuole lasciare.
 
 REGOLE ASSOLUTE:

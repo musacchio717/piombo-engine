@@ -1,92 +1,212 @@
-{
-  "locations": [
-    {
-      "id": "milano_centro",
-      "name": "Milano Centro",
-      "zone": "zona_rossa",
-      "danger_level": 5,
-      "description": "Il cuore di Milano sotto controllo militare totale. Accesso vietato senza lasciapassare.",
-      "k_core": 3,
-      "relations": [
-        { "type": "CONTROLLED_BY", "target_id": "governo_emergenza" },
-        { "type": "CONNECTED_TO", "target_id": "checkpoint_a1_sud", "properties": { "travel_risk": 5 } }
-      ]
+[
+  {
+    "id": "pavia",
+    "type": "Location",
+    "core": {
+      "name": "Pavia",
+      "zone": "Nord Italia — Lombardia",
+      "geography": "Città universitaria sul Ticino, 35km da Milano. Centro storico medievale, dominata dall'Università e dai collegi.",
+      "narrative_role": "Luogo di partenza. È la città in cui Alessandro ha costruito la sua vita fuori dalla Calabria: università, amici, lavoro in formazione. Il collasso parte da qui. Al Policlinico San Matteo viene sviluppato il vaccino sperimentale.",
+      "cultural_notes": "Città accademica e quieta. Prima della pandemia sembrava immune dal caos del mondo."
     },
-    {
-      "id": "checkpoint_a1_sud",
-      "name": "Checkpoint A1 Sud Milano",
-      "zone": "zona_arancione",
-      "danger_level": 4,
-      "description": "Principale punto di controllo sull'autostrada A1. Presidiato dal Tenente Marini.",
-      "k_core": 3,
-      "relations": [
-        { "type": "CONTROLLED_BY", "target_id": "governo_emergenza" },
-        { "type": "CONNECTED_TO", "target_id": "milano_centro", "properties": { "travel_risk": 5 } },
-        { "type": "CONNECTED_TO", "target_id": "starting_location", "properties": { "travel_risk": 3 } }
-      ]
-    },
-    {
-      "id": "milano_nord_clinica",
-      "name": "Clinica Segreta Milano Nord",
-      "zone": "zona_gialla",
-      "danger_level": 2,
-      "description": "Clinica nascosta in un ex magazzino. Gestita da Marco Ferretti.",
-      "k_core": 2,
-      "relations": [
-        { "type": "CONTROLLED_BY", "target_id": "colonna_nord" },
-        { "type": "CONNECTED_TO", "target_id": "cattedrale_sotterranea", "properties": { "travel_risk": 1 } }
-      ]
-    },
-    {
-      "id": "laboratorio_pavia",
-      "name": "Laboratorio Abbandonato Pavia",
-      "zone": "zona_grigia",
+    "state": {
       "danger_level": 3,
-      "description": "Ex laboratorio universitario dove il Professor Rossi lavora al vaccino.",
-      "k_core": 3,
-      "relations": [
-        { "type": "CONTROLLED_BY", "target_id": "laboratorio_pavia" },
-        { "type": "CONNECTED_TO", "target_id": "starting_location", "properties": { "travel_risk": 3 } }
-      ]
+      "pandemic_status": "lockdown totale — primo epicentro lombardo",
+      "controlled_by": null,
+      "accessibility": "bloccata — checkpoint in uscita"
     },
-    {
-      "id": "cattedrale_sotterranea",
-      "name": "Cattedrale Sotterranea Milano",
-      "zone": "zona_gialla",
-      "danger_level": 2,
-      "description": "Rete di tunnel sotto il Duomo usata come base dalla resistenza.",
-      "k_core": 2,
-      "relations": [
-        { "type": "CONTROLLED_BY", "target_id": "colonna_nord" },
-        { "type": "CONNECTED_TO", "target_id": "milano_nord_clinica", "properties": { "travel_risk": 1 } },
-        { "type": "CONNECTED_TO", "target_id": "starting_location", "properties": { "travel_risk": 2 } }
-      ]
+    "relations": [
+      {
+        "type": "CONNECTED_TO",
+        "target_id": "milano",
+        "properties": {"travel_risk": 7, "route": "autostrada A7 / treno", "notes": "Prima tappa obbligata, epicentro pandemia"}
+      }
+    ]
+  },
+  {
+    "id": "milano",
+    "type": "Location",
+    "core": {
+      "name": "Milano",
+      "zone": "Nord Italia — Lombardia",
+      "geography": "Capitale economica italiana. Nodo ferroviario e autostradale principale del nord.",
+      "narrative_role": "Prima città-shock del viaggio. Epicentro della pandemia al collasso. Il gruppo deve attraversarla per recuperare Luca R.",
+      "cultural_notes": "Milano rappresenta il fallimento del modello nordico: la città più efficiente d'Italia è anche la prima a cadere."
     },
-    {
-      "id": "locanda_abbandonata",
-      "name": "Locanda Abbandonata Navigli",
-      "zone": "zona_gialla",
-      "danger_level": 1,
-      "description": "Ex ostello usato da Sara Neri come base operativa per le sue attività hacker.",
-      "k_core": 2,
-      "relations": [
-        { "type": "CONTROLLED_BY", "target_id": "rete_digitale" },
-        { "type": "CONNECTED_TO", "target_id": "starting_location", "properties": { "travel_risk": 1 } }
-      ]
+    "state": {
+      "danger_level": 8,
+      "pandemic_status": "collasso sanitario — ospedali saturi, zone rosse attive",
+      "controlled_by": null,
+      "accessibility": "accesso limitato — checkpoint militari sulle arterie principali"
     },
-    {
-      "id": "starting_location",
-      "name": "Periferia Sud Milano",
-      "zone": "zona_gialla",
-      "danger_level": 2,
-      "description": "Punto di partenza del giocatore. Un quartiere periferico semi-deserto.",
-      "k_core": 1,
-      "relations": [
-        { "type": "CONNECTED_TO", "target_id": "checkpoint_a1_sud", "properties": { "travel_risk": 3 } },
-        { "type": "CONNECTED_TO", "target_id": "cattedrale_sotterranea", "properties": { "travel_risk": 2 } },
-        { "type": "CONNECTED_TO", "target_id": "locanda_abbandonata", "properties": { "travel_risk": 1 } },
-        { "type": "CONNECTED_TO", "target_id": "laboratorio_pavia", "properties": { "travel_risk": 3 } }
-      ]
-    }
-  ]
-}
+    "relations": [
+      {
+        "type": "CONNECTED_TO",
+        "target_id": "bologna",
+        "properties": {"travel_risk": 5, "route": "autostrada A1 / treno", "notes": "Uscita da Milano verso sud, controlli frequenti"}
+      }
+    ]
+  },
+  {
+    "id": "bologna",
+    "type": "Location",
+    "core": {
+      "name": "Bologna",
+      "zone": "Centro-Nord Italia — Emilia-Romagna",
+      "geography": "Città universitaria, nodo autostradale centrale tra nord e sud Italia.",
+      "narrative_role": "La città promessa di Alessandro: ci avrebbe dovuto trasferire, non lo ha mai fatto. Qui compare Alessia per la prima volta. La pandemia è presente ma la città mantiene false sicurezze.",
+      "cultural_notes": "Città giovane e universitaria. Alessandro la trova frivola e distante dal suo carattere."
+    },
+    "state": {
+      "danger_level": 5,
+      "pandemic_status": "pandemia presente ma non al collasso — false sicurezze",
+      "controlled_by": null,
+      "accessibility": "parzialmente aperta — controlli saltuari"
+    },
+    "relations": [
+      {
+        "type": "CONNECTED_TO",
+        "target_id": "firenze",
+        "properties": {"travel_risk": 4, "route": "autostrada A1 / Appennino", "notes": "Traversata appenninica, tratti isolati"}
+      }
+    ]
+  },
+  {
+    "id": "firenze",
+    "type": "Location",
+    "core": {
+      "name": "Firenze",
+      "zone": "Centro Italia — Toscana",
+      "geography": "Città d'arte sul fiume Arno. Cerniera tra il nord industriale e il centro-sud.",
+      "narrative_role": "Città di passaggio. La pandemia inizia a prendere piede seriamente. Luogo evocativo: Firenze fu già colpita dalla Peste Nera del Trecento, cantata da Boccaccio nel Decameron e sfondo implicito della Divina Commedia. Il parallelo con la pandemia attuale non è casuale.",
+      "cultural_notes": "Città d'arte e storia. Il peso del passato medievale riecheggia nel presente distopico."
+    },
+    "state": {
+      "danger_level": 6,
+      "pandemic_status": "pandemia in crescita — primi segnali di cedimento istituzionale",
+      "controlled_by": null,
+      "accessibility": "aperta con restrizioni — posti di blocco sulle uscite autostradali"
+    },
+    "relations": [
+      {
+        "type": "CONNECTED_TO",
+        "target_id": "roma",
+        "properties": {"travel_risk": 4, "route": "autostrada A1", "notes": "Tratto lungo, stazioni di servizio abbandonate"}
+      }
+    ]
+  },
+  {
+    "id": "roma",
+    "type": "Location",
+    "core": {
+      "name": "Roma",
+      "zone": "Centro Italia — Lazio",
+      "geography": "Capitale d'Italia. Centro del potere politico e amministrativo.",
+      "narrative_role": "Città cruciale e paradossale. La pandemia è ancora leggera rispetto al nord e i cittadini trattano Alessandro come un pazzo allarmista. Seconda apparizione di Alessia. Roma è anche sede del governo che gestisce l'emergenza — o non riesce a farlo.",
+      "cultural_notes": "Roma vive in una bolla di relativa normalità mentre il paese crolla. L'arroganza della capitale in tempi di crisi."
+    },
+    "state": {
+      "danger_level": 4,
+      "pandemic_status": "pandemia sottovalutata — vita quasi normale, governo in stallo",
+      "controlled_by": null,
+      "accessibility": "aperta — scarsa percezione del rischio"
+    },
+    "relations": [
+      {
+        "type": "CONNECTED_TO",
+        "target_id": "napoli",
+        "properties": {"travel_risk": 5, "route": "autostrada A1/A3", "notes": "Tratto sempre più difficile, blocchi spontanei dei cittadini"}
+      }
+    ]
+  },
+  {
+    "id": "napoli",
+    "type": "Location",
+    "core": {
+      "name": "Napoli",
+      "zone": "Sud Italia — Campania",
+      "geography": "Città portuale sul Tirreno. Centro caotico e densamente popolato.",
+      "narrative_role": "Alessandro odia la città e i suoi abitanti. La pandemia qui sembra diversa dal covid standard: sintomi anomali, comportamenti collettivi insoliti. Primo segnale che qualcosa di più grande sta accadendo.",
+      "cultural_notes": "Città che Alessandro percepisce come caotica e inaffidabile. Il suo pregiudizio si scontra con la realtà più complessa."
+    },
+    "state": {
+      "danger_level": 7,
+      "pandemic_status": "pandemia presente con varianti anomale — tensione sociale alta",
+      "controlled_by": null,
+      "accessibility": "caotica — blocchi spontanei, ordine pubblico in crisi"
+    },
+    "relations": [
+      {
+        "type": "CONNECTED_TO",
+        "target_id": "cosenza",
+        "properties": {"travel_risk": 6, "route": "autostrada A3 Salerno-Reggio Calabria", "notes": "Autostrada degradata, presidi militari sporadici"}
+      }
+    ]
+  },
+  {
+    "id": "cosenza",
+    "type": "Location",
+    "core": {
+      "name": "Cosenza",
+      "zone": "Sud Italia — Calabria settentrionale",
+      "geography": "Prima città calabrese di rilievo sull'A3. Centro universitario del nord Calabria.",
+      "narrative_role": "Shock inaspettato: la pandemia è esplosa qui come al nord, peggio delle aspettative. Causa: i fuori sede calabresi tornati a casa hanno portato il contagio. Alessandro si sente indirettamente responsabile — anche lui è un fuori sede che torna.",
+      "cultural_notes": "Città universitaria calabrese. Il ritorno dei fuori sede diventa metafora del collasso dei confini tra nord e sud."
+    },
+    "state": {
+      "danger_level": 8,
+      "pandemic_status": "esplosione epidemica — ospedali al limite, panico diffuso",
+      "controlled_by": null,
+      "accessibility": "parzialmente bloccata — checkpoint improvvisati dai cittadini"
+    },
+    "relations": [
+      {
+        "type": "CONNECTED_TO",
+        "target_id": "catanzaro",
+        "properties": {"travel_risk": 5, "route": "autostrada A3 / strade provinciali", "notes": "Territorio calabrese, strade alternative disponibili"}
+      }
+    ]
+  },
+  {
+    "id": "catanzaro",
+    "type": "Location",
+    "core": {
+      "name": "Catanzaro",
+      "zone": "Sud Italia — Calabria centrale",
+      "geography": "Capoluogo di regione della Calabria. Città collinare tra i due mari.",
+      "narrative_role": "Tappa prima del finale. Pandemia nella media ma strutture ospedaliere già al collasso per la cronica carenza di risorse. Grande rivalità con Reggio Calabria — tema che può emergere nei dialoghi locali.",
+      "cultural_notes": "Rivalità storica con Reggio Calabria per il primato regionale. I catanzaresi e i reggini si detestano cordialmente."
+    },
+    "state": {
+      "danger_level": 6,
+      "pandemic_status": "pandemia gestibile ma ospedali in difficoltà strutturale",
+      "controlled_by": null,
+      "accessibility": "aperta con restrizioni"
+    },
+    "relations": [
+      {
+        "type": "CONNECTED_TO",
+        "target_id": "reggio_calabria",
+        "properties": {"travel_risk": 4, "route": "autostrada A3 / SS106", "notes": "Ultimo tratto, meta quasi raggiunta"}
+      }
+    ]
+  },
+  {
+    "id": "reggio_calabria",
+    "type": "Location",
+    "core": {
+      "name": "Reggio Calabria",
+      "zone": "Sud Italia — Calabria meridionale",
+      "geography": "Città sullo Stretto di Messina, affacciata sulla Sicilia. Estremo sud della penisola.",
+      "narrative_role": "Meta finale del viaggio. La famiglia di Alessandro vive qui. Città end-game dove convergono tutti i fili narrativi: il vaccino, le fazioni, Alessia, il destino del protagonista. Reggio è anche sede della 'ndrangheta — fattore che pesa nelle scelte finali.",
+      "cultural_notes": "Città d'origine di Alessandro, Davide, Gesualdo, Ciccio, Luca R. Il ritorno a casa è il cuore emotivo dell'intera storia."
+    },
+    "state": {
+      "danger_level": 5,
+      "pandemic_status": "pandemia in crescita — città in attesa, tensione latente",
+      "controlled_by": null,
+      "accessibility": "aperta — ultimo baluardo prima dello Stretto"
+    },
+    "relations": []
+  }
+]
