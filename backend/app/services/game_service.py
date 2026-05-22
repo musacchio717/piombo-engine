@@ -161,7 +161,7 @@ def _build_system_prompt(character: Character) -> str:
     """
     return f"""Sei il narratore di un gioco testuale distopico ambientato in Italia nel 2020.
 La pandemia Covid-19 ha paralizzato il paese. Il protagonista è {character.name},
-bloccato in una città italiana che vuole lasciare.
+bloccato a Pavia.
 
 REGOLE ASSOLUTE:
 - Rispondi ESCLUSIVAMENTE con i 4 tag XML sotto. Zero testo prima o dopo.

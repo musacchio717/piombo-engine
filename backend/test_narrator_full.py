@@ -25,6 +25,7 @@ from app.ai.retrieval.hybrid import HybridRetriever
 from app.ai.agents.narrator import build_narrator_graph, NarratorState
 from app.ai.graph.kcore import KCoreAnalyzer
 from app.ai.prompts.narrator import NARRATOR_SYSTEM_PROMPT
+from app.ai.context_builder import build_core_context
 
 # ---------------------------------------------------------------------------
 # Inizializzazione componenti
@@ -71,6 +72,7 @@ def run_test(retriever, llm, lore_graph, action: str, location: str = "pavia"):
         "current_location_id": location,
         "character_stats": {"health": 100, "reputation": 0, "suspicion": 5},
         "system_prompt": NARRATOR_SYSTEM_PROMPT,
+        "core_context": build_core_context(lore_graph, location),
         "retrieval_context": "",
         "raw_llm_output": "",
         "narrator_output": None,

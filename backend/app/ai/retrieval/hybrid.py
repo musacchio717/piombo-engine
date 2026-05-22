@@ -44,6 +44,13 @@ GRAPH_TOP_K  = 10
 # In produzione alzare a 1 per escludere entità completamente isolate
 MIN_KCORE = 0
 
+# Budget per sorgente nel contesto finale.
+# Evita che i description chunks (score Qdrant ~0.8) soffochino
+# i graph chunks (score PPR ~0.04) nel sort globale.
+BUDGET_DESCRIPTION = 4
+BUDGET_TRIPLET     = 3
+BUDGET_GRAPH       = 4
+
 
 @dataclass
 class ContextChunk:
@@ -158,18 +165,26 @@ class HybridRetriever:
             min_kcore=min_kcore,
         )
 
-        # 3. Converti tutto in ContextChunk con score pesato
-        chunks: list[ContextChunk] = []
-        chunks.extend(self._desc_to_chunks(desc_results))
-        chunks.extend(self._triplet_to_chunks(triplet_results))
-        chunks.extend(self._graph_to_chunks(ranked_nodes))
+        # 3. Converti in ContextChunk con score pesato e applica budget per sorgente.
+        # Budget separato perché gli score PPR (~0.04) sono incomparabili
+        # con gli score Qdrant (~0.85) — un sort globale soffoca sempre il grafo.
+        desc_chunks = sorted(
+            self._desc_to_chunks(desc_results),
+            key=lambda c: c.score, reverse=True
+        )[:BUDGET_DESCRIPTION]
 
-        # 4. De-duplica per node_id (tieni il chunk con score più alto)
-        chunks = self._dedup(chunks)
+        triplet_chunks = sorted(
+            self._triplet_to_chunks(triplet_results),
+            key=lambda c: c.score, reverse=True
+        )[:BUDGET_TRIPLET]
 
-        # 5. Sort finale e top max_chunks
-        chunks.sort(key=lambda c: c.score, reverse=True)
-        chunks = chunks[:max_chunks]
+        graph_chunks = sorted(
+            self._graph_to_chunks(ranked_nodes),
+            key=lambda c: c.score, reverse=True
+        )[:BUDGET_GRAPH]
+
+        # 4. Dedup solo per stessa sorgente (description vs graph sono informazioni diverse)
+        chunks = self._dedup(desc_chunks + triplet_chunks + graph_chunks)
 
         # Seed nodes usati (per logging / Langfuse)
         seed_nodes = self._ppr.entity_link(player_input)
@@ -224,11 +239,19 @@ class HybridRetriever:
         chunks = []
         for r in results:
             meta = r.get("metadata", {})
+            node_id = meta.get("node_id")
+            # Recupera description completa da Neo4j (Qdrant salva solo metadata)
+            description = ""
+            if node_id:
+                node_data = self._lore_graph.get_node(node_id)
+                if node_data:
+                    description = node_data.get("description", "")
+            text = description or self._rebuild_desc_text(meta)
             chunks.append(ContextChunk(
-                text=self._rebuild_desc_text(meta),
+                text=text,
                 score=r["score"] * WEIGHT_DESCRIPTION,
                 source="description",
-                node_id=meta.get("node_id"),
+                node_id=node_id,
                 node_name=meta.get("node_name"),
                 k_core=meta.get("k_core", 0),
                 metadata=meta,

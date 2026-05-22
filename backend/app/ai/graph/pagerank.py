@@ -66,6 +66,7 @@ class PersonalizedPageRank:
         self._graph = lore_graph
         self._kcore = kcore_analyzer
         self._nx_graph: nx.DiGraph | None = None
+        self._name_to_id_cache: dict[str, str] | None = None
 
     # ------------------------------------------------------------------
     # Grafo diretto per PPR
@@ -136,13 +137,14 @@ class PersonalizedPageRank:
 
         # Costruisce lookup name → node_id dal grafo in memoria
         # (evita una query Neo4j a ogni azione)
-        name_to_id: dict[str, str] = {}
-        for node_id in G.nodes():
-            # Cerca il nome dal grafo Neo4j
-            node_data = self._graph.get_node(node_id)
-            if node_data and node_data.get("name"):
-                name = node_data["name"].lower()
-                name_to_id[name] = node_id
+        if self._name_to_id_cache is None:
+            self._name_to_id_cache = {}
+            for node_id in G.nodes():
+                node_data = self._graph.get_node(node_id)
+                if node_data and node_data.get("name"):
+                    self._name_to_id_cache[node_data["name"].lower()] = node_id
+            logger.debug("entity_link cache built: %d entries", len(self._name_to_id_cache))
+        name_to_id = self._name_to_id_cache
 
         # Genera n-gram dal testo (1, 2, 3 token)
         tokens = re.findall(r"[\w']+", text.lower())
@@ -246,6 +248,19 @@ class PersonalizedPageRank:
         if current_location_id:
             if current_location_id not in seed_ids:
                 seed_ids.append(current_location_id)
+
+        # Seed expansion: se entity linking non trova personaggi,
+        # aggiungi i nodi connessi alla location corrente come seed aggiuntivi
+        entity_seeds = [s for s in seed_ids if s != current_location_id]
+        if current_location_id and not entity_seeds:
+            neighborhood = self._graph.get_neighborhood(
+                current_location_id, depth=1, min_kcore=0
+            )
+            for n in neighborhood.get("nodes", [])[:8]:
+                nid = n.get("id")
+                if nid and nid != current_location_id and nid not in seed_ids:
+                    seed_ids.append(nid)
+            logger.debug("Seed expansion: %d nodi aggiunti da %s", len(seed_ids) - 1, current_location_id)
 
         logger.debug("PPR seeds: %s", seed_ids)
 

@@ -104,31 +104,23 @@ class ConsistencyChecker:
     # ------------------------------------------------------------------
 
     def _check_entities(self, output: NarratorOutput, result: ConsistencyResult) -> None:
+        """
+        Cerca i nomi del KG nel testo della response (logica invertita).
+        Evita falsi positivi da parole comuni capitalizzate in italiano.
+        Il rilevamento di hallucination profonde è delegato al SemanticChecker.
+        """
         known = self._get_entity_names()
         if not known:
             result.warn("entity check: KG vuoto o non raggiungibile — skip")
             return
 
-        # Estrai token capitalizzati dalla response (euristica per nomi propri)
-        candidates = _extract_proper_nouns(output.response)
-        if not candidates:
-            logger.debug("entity check: nessun nome proprio trovato — skip")
-            return
+        text_lower = output.response.lower()
+        mentioned = {name for name in known if name.lower() in text_lower}
 
-        unknown = []
-        for candidate in candidates:
-            # Match parziale case-insensitive (es. "Marini" matcha "Tenente Marini")
-            if not any(candidate.lower() in known_name.lower() for known_name in known):
-                unknown.append(candidate)
-
-        if unknown:
-            # Warning, non hard failure: il narratore può usare termini generici
-            result.warn(
-                f"entity check: termini non trovati nel KG: {unknown} "
-                f"— potrebbe essere inventato o termine generico"
-            )
+        if mentioned:
+            logger.debug("entity check: %d entità KG menzionate: %s", len(mentioned), mentioned)
         else:
-            logger.debug("entity check: OK (%d candidati verificati)", len(candidates))
+            logger.debug("entity check: nessuna entità KG esplicitamente menzionata")
 
     # ------------------------------------------------------------------
     # Check 3 — Location (graph connectivity)
@@ -205,16 +197,3 @@ class ConsistencyChecker:
         except Exception as e:
             logger.error("location connectivity check error: %s", e)
             return True  # fail-open: non blocca il flusso
-
-
-def _extract_proper_nouns(text: str) -> list[str]:
-    """
-    Euristica semplice: estrae parole con iniziale maiuscola che non siano
-    a inizio frase. Funziona bene per nomi propri italiani.
-    Non usa NER — non serve per 26 entità.
-    """
-    # Rimuovi punteggiatura e splitta
-    words = re.findall(r'\b[A-Z][a-zàèéìòù]+(?:\s+[A-Z][a-zàèéìòù]+)*\b', text)
-    # Filtra parole comuni maiuscole (inizio frase, "Il", "La", ecc.)
-    stop = {"Il", "La", "Lo", "Le", "Gli", "Un", "Una", "Uno", "The", "Mock"}
-    return [w for w in words if w not in stop and len(w) > 2]

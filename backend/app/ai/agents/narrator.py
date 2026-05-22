@@ -35,6 +35,7 @@ class NarratorState(TypedDict):
     system_prompt: str
 
     # Prodotto durante il flusso
+    core_context: str              # contesto fisso (storia + protagonista + gruppo)
     retrieval_context: str         # testo pronto per il prompt
     raw_llm_output: str
     narrator_output: NarratorOutput | None
@@ -69,8 +70,9 @@ def node_generate(state: NarratorState, llm: LLMClient) -> dict:
     logger.info("node_generate: chiamata LLM")
 
     stats = state["character_stats"]
+    core = state.get("core_context", "")
     user_prompt = (
-        f"## Contesto lore recuperato\n{state['retrieval_context']}\n\n"
+        f"{core}\n\n## Contesto lore dinamico\n{state['retrieval_context']}\n\n"
         f"## Stato personaggio\n"
         f"- Salute: {stats.get('health', 100)}/100\n"
         f"- Reputazione: {stats.get('reputation', 0)}\n"
@@ -182,8 +184,9 @@ def node_semantic_check(state: NarratorState, semantic_checker: "SemanticChecker
     if out is None or not out.is_valid:
         return {}  # già gestito da node_finalize
 
+    full_context = (state.get("core_context") or "") + "\n\n" + state["retrieval_context"]
     result = semantic_checker.check(
-        retrieval_context=state["retrieval_context"],
+        retrieval_context=full_context,
         narrator_response=out.response,
     )
 

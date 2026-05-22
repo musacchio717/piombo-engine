@@ -256,7 +256,7 @@ class LoreGraph:
         Formato output: { nodes: [...], edges: [...] }
         """
         query = (
-            "MATCH path = (start {id: $id})-[*1..$depth]-(neighbor) "
+            "MATCH path = (start {id: $id})-[*1..2]-(neighbor) "
             "WHERE neighbor.k_core >= $min_kcore OR neighbor.k_core IS NULL "
             "UNWIND nodes(path) AS n "
             "UNWIND relationships(path) AS r "
