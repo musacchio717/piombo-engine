@@ -1,0 +1,87 @@
+{
+  "id": "stazione_pavia_inoculazione",
+  "title": "Stazione di Pavia — Il ricercatore",
+  "location_id": "pavia",
+
+  "entry_conditions": null,
+
+  "on_enter": {
+    "stats": { "suspicion": 5 },
+    "flags_set": ["licenziamento_avvenuto"],
+    "flags_clear": []
+  },
+
+  "arrival": {
+    "director_note": "Stazione quasi deserta, metà dei treni cancellati. Illuminazione al minimo. Enfatizza il silenzio anomalo, le vetrine dei bar chiuse, i tabelloni con le partenze cancellate. Alessandro è qui solo per svuotare l'armadietto — è già stato licenziato, questo è il congedo burocratico. Tono: umiliazione contenuta, stanchezza. Non ancora paura. Nessun altro personaggio visibile all'arrivo. Alessandro arriva a piedi — la stazione è il suo posto di lavoro, non un luogo di transito",
+    "npcs_present": ["none"],
+    "objects_present": ["obj_armadietto_personale", "obj_tabellone_partenze", "obj_bar_chiuso"]
+  },
+
+  "exploration": null,
+
+  "event": {
+    "trigger": "immediate",
+    "director_note": "La scena deve essere rapida e disorientante. Il ricercatore è in stato di panico, non di calma. Non spiega niente — non c'è tempo. Le sue parole sono frammentate. Il momento dell'iniezione è fisico: Alessandro non può opporsi, è già fatta prima che capisca cosa sta succedendo. Subito dopo si sentono passi o voci in avvicinamento — qualcuno sta cercando il ricercatore. Il ricercatore sparisce (fugge, viene trascinato via — lascia ambiguo). Alessandro resta solo con un punto caldo sul collo e nessuna spiegazione.",
+    "facts": [
+      "Un uomo in camice bianco sporco di sangue esce dal corridoio del personale e si avvicina ad Alessandro",
+      "L'uomo è visibilmente terrorizzato — si guarda alle spalle, parla sottovoce e in fretta",
+      "Prima che Alessandro possa reagire, l'uomo gli inietta qualcosa nel collo con una siringa già pronta",
+      "Le ultime parole dell'uomo, quasi sussurrate: 'Non farti aprire'",
+      "Si sentono passi rapidi in avvicinamento dal corridoio. L'uomo scappa o viene trascinato via — Alessandro non riesce a vedere bene cosa succede",
+      "Alessandro resta solo. Ha ancora le cose dell'armadietto in mano. Sul collo un punto rosso che brucia"
+    ],
+    "npc_id": "ricercatore_san_matteo",
+    "sets_flag": "inoculazione_avvenuta"
+  },
+
+  "decision": {
+    "prompt_hint": "Alessandro è solo in una stazione quasi deserta con qualcosa di sconosciuto in corpo.",
+    "choices": [
+      {
+        "id": "scappa_subito",
+        "text": "Prendi le tue cose e esci dalla stazione il più in fretta possibile",
+        "requires_flag": null,
+        "requires_stat": null,
+        "effects": {
+          "stats": {},
+          "flags_set": ["lasciata_stazione_in_fretta"],
+          "flags_clear": [],
+          "inventory_add": [],
+          "inventory_remove": []
+        },
+        "next_scene_id": "casa_davide",
+        "resolution_hint": "Alessandro non guarda indietro. La stazione sparisce dietro di lui. Non sa cosa ha in corpo, non sa chi fosse quell'uomo. Sa solo che vuole uscire da lì."
+      },
+      {
+        "id": "cerca_cosa_successo",
+        "text": "Segui il corridoio da dove è arrivato il ricercatore",
+        "requires_flag": null,
+        "requires_stat": null,
+        "effects": {
+          "stats": { "suspicion": 10 },
+          "flags_set": ["visto_corridoio_personale"],
+          "flags_clear": [],
+          "inventory_add": [],
+          "inventory_remove": []
+        },
+        "next_scene_id": "casa_davide",
+        "resolution_hint": "Il corridoio è vuoto. Una porta sul retro è rimasta socchiusa. Non c'è nessuno. Solo una traccia di sangue sul pavimento che porta verso l'uscita di servizio. Alessandro torna indietro. Non c'è niente da trovare qui."
+      },
+      {
+        "id": "chiama_soccorsi",
+        "text": "Chiami il numero di emergenza — c'era un uomo ferito",
+        "requires_flag": null,
+        "requires_stat": null,
+        "effects": {
+          "stats": { "suspicion": 25 },
+          "flags_set": ["soccorsi_allertati", "polizia_a_conoscenza_incidente_stazione"],
+          "flags_clear": [],
+          "inventory_add": [],
+          "inventory_remove": []
+        },
+        "next_scene_id": "casa_davide",
+        "resolution_hint": "Risponde una voce stanca. Alessandro descrive quello che ha visto — un uomo ferito, una siringa. Dall'altro capo qualche domanda burocratica, poi silenzio. Arriverà una pattuglia, dice la voce. Alessandro aspetta venti minuti. Non arriva nessuno. Quando se ne va, ha la sensazione che qualcuno abbia preso nota del suo nome."
+      }
+    ]
+  }
+}

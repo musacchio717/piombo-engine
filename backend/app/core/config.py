@@ -22,10 +22,13 @@ class Settings(BaseSettings):
     EMBEDDING_DEVICE: str = "cuda"
 
     # LLM
-    LLM_MODEL: str = "mistral-nemo:12b-instruct-2407-q4_K_M"           # switch: "qwen3:8b"
-    LLM_TEMPERATURE: float = 0.7
-    LLM_MAX_TOKENS: int = 600
-    LLM_NUM_CTX: int = 4096               # context window — max sicuro per 12GB VRAM
+    #LLM_MODEL: str = "mistral-nemo:12b-instruct-2407-q4_K_M"
+    #LLM_MODEL: str = "qwen3:8b"
+    #LLM_MODEL: str = "qwen2.5:14b-instruct-q4_K_M"     
+    LLM_MODEL: str = "qwen3.5:9b"     
+    LLM_TEMPERATURE: float = 0.6
+    LLM_MAX_TOKENS: int = 2000
+    LLM_NUM_CTX: int = 8196               # context window — max sicuro per 12GB VRAM
     OLLAMA_BASE_URL: str = "http://localhost:11434"
 
     # Consistency Checker

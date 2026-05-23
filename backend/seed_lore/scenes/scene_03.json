@@ -1,0 +1,120 @@
+{
+  "id": "strade_pavia_partenza",
+  "title": "Pavia — Si parte",
+  "location_id": "pavia",
+
+  "entry_conditions": {
+    "flags_required": ["davide_viene_con_noi"],
+    "flags_absent": [],
+    "stats": {}
+  },
+
+  "on_enter": {
+    "stats": {},
+    "flags_set": [],
+    "flags_clear": []
+  },
+
+  "arrival": {
+    "director_note": "Alba. Le strade del quartiere universitario sono vuote come non lo sono mai state. Qualche finestra illuminata, nessuno fuori. Gesualdo è già sotto con la moto accesa. Ciccio arriva con uno zaino semi-vuoto. Luca F ha stampato una mappa e la sta guardando prima ancora di salutare. La scena deve trasmettere il contrasto tra la normalità del gesto — quattro amici che partono — e l'assurdità del contesto. Nessuno dice ad alta voce che non sa se e quando tornerà.",
+    "npcs_present": ["gesualdo", "ciccio", "luca_f"],
+    "objects_present": ["obj_moto_gesualdo", "obj_mappa_stampata", "obj_strade_vuote"]
+  },
+
+  "exploration": {
+    "budget": 2,
+    "examinable": [
+      {
+        "id": "obj_strade_vuote",
+        "name": "le strade intorno",
+        "lore_entity_id": "pavia",
+        "description_hint": "La città è sospesa. Qualche macchina della polizia municipale in lontananza, ma non si avvicina. I negozi sono chiusi con i cartelli di emergenza sanitaria. In fondo alla via si vede un posto di blocco improvvisato — due coni e un'auto dei carabinieri ferma. Non stanno controllando nessuno, per ora. La sensazione è di una città che trattiene il fiato.",
+        "reveal_flag": "visto_posto_blocco_uscita",
+        "requires_flag": null
+      },
+      {
+        "id": "obj_mappa_stampata",
+        "name": "la mappa di Luca F",
+        "lore_entity_id": null,
+        "description_hint": "Luca F ha segnato due percorsi: l'A1 in rosso (veloce, checkpoint militari certi) e un percorso secondario attraverso la Lomellina e l'Oltrepò in verde (tre ore in più, strade provinciali, checkpoint imprevedibili). Ha già scritto a margine i pro e contro di ciascuno. Non ha ancora deciso — aspetta un input.",
+        "reveal_flag": "visti_percorsi_alternativi",
+        "requires_flag": null
+      }
+    ],
+    "dialogable_npcs": [
+      {
+        "id": "gesualdo",
+        "topic_hints": [
+          "il furgone di suo cugino Mimmo lasciato in un parcheggio a due isolati — chiavi consegnate a lui 'per guardarlo'",
+          "le strade secondarie che conosce per i trasporti cani — sa dove non ci sono posti di blocco fissi",
+          "la situazione sulla A1 — ha sentito da un contatto che i checkpoint sono ogni 30km"
+        ],
+        "forbidden_topics": [
+          "cosa ha in corpo Alessandro",
+          "il ricercatore della stazione"
+        ]
+      },
+      {
+        "id": "luca_f",
+        "topic_hints": [
+          "l'analisi del percorso — autostrada vs secondarie",
+          "i documenti che hanno e quelli che mancano",
+          "il quadro politico — chi controlla davvero i checkpoint"
+        ],
+        "forbidden_topics": [
+          "sentimenti personali sulla partenza",
+          "la famiglia di Alessandro"
+        ]
+      }
+    ]
+  },
+
+  "event": {
+    "trigger": "after_exploration",
+    "director_note": "Gesualdo annuncia il furgone con la stessa energia con cui annuncerebbe di aver vinto una scommessa. La notizia viene ricevuta in modo diverso da ognuno: Luca F chiede immediatamente i documenti del mezzo, Ciccio dice che gli viene il mal di schiena solo a guardarlo, Davide apre il portellone e guarda dentro senza commentare. Il furgone è vecchio, profuma ancora di cane. C'è spazio per tutti. Non è un trionfo — è abbastanza.",
+    "facts": [
+      "Gesualdo porta il gruppo in un parcheggio a due isolati dove c'è un furgone Fiat Ducato bianco di suo cugino Mimmo",
+      "Il cugino è tornato a Reggio prima del lockdown e ha lasciato le chiavi a Gesualdo 'per tenerlo d'occhio'",
+      "Il furgone è intestato a una ditta di traslochi — ha una copertura plausibile per circolare",
+      "È vecchio, con quasi 200.000 km, ma parte"
+    ],
+    "npc_id": "gesualdo",
+    "sets_flag": "furgone_disponibile"
+  },
+
+  "decision": {
+    "prompt_hint": "Con il furgone disponibile, il gruppo deve decidere il percorso.",
+    "choices": [
+      {
+        "id": "percorso_secondario_gesualdo",
+        "text": "Si va per le strade secondarie — ti fidi di Gesualdo",
+        "requires_flag": null,
+        "requires_stat": null,
+        "effects": {
+          "stats": { "suspicion": -5 },
+          "flags_set": ["percorso_secondario_scelto"],
+          "flags_clear": [],
+          "inventory_add": [],
+          "inventory_remove": []
+        },
+        "next_scene_id": "uscita_pavia_secondaria",
+        "resolution_hint": "Gesualdo sorride come se avesse aspettato solo questo. Piega la mappa di Luca F in quattro e la mette in tasca. 'Fidatevi'. Luca F riprende il foglio e lo rimette nello zaino senza commentare."
+      },
+      {
+        "id": "percorso_autostrada",
+        "text": "Si va sull'autostrada — più veloce, i documenti del furgone reggono",
+        "requires_flag": null,
+        "requires_stat": null,
+        "effects": {
+          "stats": { "suspicion": 10 },
+          "flags_set": ["percorso_autostrada_scelto"],
+          "flags_clear": [],
+          "inventory_add": [],
+          "inventory_remove": []
+        },
+        "next_scene_id": "uscita_pavia_autostrada",
+        "resolution_hint": "Luca F annuisce. Gesualdo alza le spalle — non è d'accordo ma non discute. Il furgone si avvia verso l'imbocco dell'A1. In lontananza, i primi segnali arancioni dei checkpoint."
+      }
+    ]
+  }
+}

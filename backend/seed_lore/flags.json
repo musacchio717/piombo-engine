@@ -1,0 +1,21 @@
+{
+  "flags": {
+    "licenziamento_avvenuto": { "default": false, "description": "Alessandro ha ritirato gli effetti personali ed è stato formalmente licenziato" },
+    "inoculazione_avvenuta": { "default": false, "description": "Il ricercatore ha iniettato qualcosa nel collo di Alessandro" },
+    "lasciata_stazione_in_fretta": { "default": false, "description": "Alessandro è scappato dalla stazione senza guardarsi intorno" },
+    "visto_corridoio_personale": { "default": false, "description": "Alessandro ha esplorato il corridoio del personale dopo l'incidente" },
+    "soccorsi_allertati": { "default": false, "description": "Alessandro ha chiamato i soccorsi dalla stazione" },
+    "polizia_a_conoscenza_incidente_stazione": { "default": false, "description": "Il nome di Alessandro è associato all'incidente nei registri" },
+    "davide_viene_con_noi": { "default": false, "description": "Davide ha deciso di partire con Alessandro" },
+    "viste_notizie_pandemia": { "default": false, "description": "Il player ha guardato il telegiornale a casa di Davide" },
+    "luca_r_avvisato": { "default": false, "description": "Luca R sa che il gruppo passerà da Milano a prenderlo" },
+    "luca_r_non_avvisato": { "default": false, "description": "Il gruppo è partito senza avvisare Luca R" },
+    "passaggio_milano_confermato": { "default": false, "description": "Il piano prevede esplicitamente una sosta a Milano" },
+    "visto_posto_blocco_uscita": { "default": false, "description": "Il player ha notato il posto di blocco in fondo alla via" },
+    "visti_percorsi_alternativi": { "default": false, "description": "Il player ha consultato la mappa di Luca F con i due percorsi" },
+    "furgone_disponibile": { "default": false, "description": "Il gruppo ha accesso al furgone Fiat Ducato di Mimmo" },
+    "percorso_secondario_scelto": { "default": false, "description": "Il gruppo viaggia per strade secondarie attraverso Lomellina/Oltrepò" },
+    "percorso_autostrada_scelto": { "default": false, "description": "Il gruppo viaggia sull'autostrada A1" },
+    "has_pavia_papers": { "default": false, "description": "Il player ha i documenti di copertura usati per i checkpoint" }
+  }
+}

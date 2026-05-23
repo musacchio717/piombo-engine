@@ -184,11 +184,11 @@ def node_semantic_check(state: NarratorState, semantic_checker: "SemanticChecker
     if out is None or not out.is_valid:
         return {}  # già gestito da node_finalize
 
-    full_context = (state.get("core_context") or "") + "\n\n" + state["retrieval_context"]
+    full_context = state.get("core_context", "") + "\n\n" + state["retrieval_context"]
     result = semantic_checker.check(
         retrieval_context=full_context,
         narrator_response=out.response,
-    )
+)
 
     if result.skipped:
         logger.info("node_semantic_check: skipped — %s", result.reason)

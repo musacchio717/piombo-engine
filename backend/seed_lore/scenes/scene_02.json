@@ -1,0 +1,122 @@
+{
+  "id": "casa_davide",
+  "title": "Casa di Davide — Si parte",
+  "location_id": "pavia",
+
+  "entry_conditions": {
+    "flags_required": ["inoculazione_avvenuta"],
+    "flags_absent": [],
+    "stats": {}
+  },
+
+  "on_enter": {
+    "stats": {},
+    "flags_set": [],
+    "flags_clear": []
+  },
+
+  "arrival": {
+    "director_note": "Appartamento studentesco di Davide (fratello minore di Alessandro) — libri dappertutto, tesi di laurea sparsa sul tavolo. La laurea era prevista ad aprile, ora è tutto sospeso. Davide apre la porta e capisce subito che qualcosa non va — ma non lo dice. Accende la macchinetta del caffè da due soldi che hanno sempre usato. Il tono è familiare ma carico allo stesso tempo. Alessandro sente ancora il bruciore al collo. Non sa ancora cosa dire.",
+    "npcs_present": ["davide_rullo"],
+    "objects_present": ["obj_tesi_davide", "obj_tv_notizie", "obj_telefono_tavolo"]
+  },
+
+  "exploration": {
+    "budget": 2,
+    "examinable": [
+      {
+        "id": "obj_tv_notizie",
+        "name": "il telegiornale",
+        "lore_entity_id": null,
+        "description_hint": "Aggiornamenti sulla pandemia: il nord Italia è fuori controllo, Pavia tra i focolai, l'autostrada A1 con checkpoint militari, treni sospesi a tempo indeterminato. Un grafico mostra la curva dei contagi. Qualcuno a Milano parla di anarchia totale. Le notizie rendono concreta la necessità di partire verso Reggio Calabria — restare bloccati a Pavia non è un'opzione.",
+        "reveal_flag": "viste_notizie_pandemia",
+        "requires_flag": null
+      },
+      {
+        "id": "obj_tesi_davide",
+        "name": "la tesi di Davide",
+        "lore_entity_id": null,
+        "description_hint": "Centinaia di pagine stampate, piene di post-it. La discussione era fissata per aprile. Adesso nessuno sa quando sarà. Il capitolo aperto sul tavolo parla di letteratura di viaggio. Non fare la battuta — lascia che sia il player a trovarla. Davide ha visto Alessandro guardare e dice solo 'non toccarla' senza alzare gli occhi.",
+        "reveal_flag": null,
+        "requires_flag": null
+      },
+      {
+        "id": "obj_telefono_tavolo",
+        "name": "il telefono",
+        "lore_entity_id": null,
+        "description_hint": "Sul display ci sono già tre notifiche non lette — Luca F, Gesualdo, Ciccio. Messaggi mandati nelle ultime ore: 'quando partite', 'ci siamo', 'ho lo zaino pronto'. Il gruppo si muove già in parallelo senza che nessuno abbia detto niente ad alta voce.",
+        "reveal_flag": "viste_notifiche_gruppo",
+        "requires_flag": null
+      }
+    ],
+    "dialogable_npcs": [
+      {
+        "id": "davide_rullo",
+        "topic_hints": [
+          "cosa è successo alla stazione",
+          "la situazione in Italia e i checkpoint",
+          "organizzare il viaggio verso Reggio",
+          "Letizia — è già a Roccaforte del Greco dalla famiglia",
+          "Luca R — è bloccato a Wuppertal e non risponde ai messaggi",
+          "gli altri del gruppo — Luca F, Gesualdo e Ciccio sono già pronti"
+        ],
+        "forbidden_topics": [
+          "il vaccino — Davide non sa nulla e non deve saperlo ancora",
+          "le intenzioni del ricercatore",
+          "cosa significa 'non farti aprire'"
+        ]
+      }
+    ]
+  },
+
+  "event": {
+    "trigger": "after_exploration",
+    "director_note": "La scena non ha un colpo di scena — ha una certezza che si sedimenta. Davide non fa discorsi emotivi. Fa domande pratiche. Il momento in cui decide di venire non viene dichiarato — lo si capisce perché comincia a spostare cose, a cercare il caricabatterie, ad aprire Maps. La telefonata agli altri è rapida, quasi burocratica — Gesualdo risponde al primo squillo come se aspettasse, Luca F fa una domanda, Ciccio si lamenta di qualcosa ma viene zittito. L'appuntamento è al bar della signora Maria, tra venti minuti. Tono contenuto, quasi banale.",
+    "facts": [
+      "Davide ha già sentito di Luca R — è bloccato in Germania, il suo Erasmus è sospeso e i voli sono ridotti",
+      "Passare da Milano è l'unico modo per recuperarlo — Luca R non sa ancora come tornare",
+      "Davide ha già guardato i percorsi: l'A1 ha checkpoint ma è l'unica via pratica verso sud",
+      "Non dice esplicitamente che viene — inizia semplicemente a prepararsi",
+      "Davide prende il telefono e chiama Luca F, Gesualdo e Ciccio uno per uno — poche parole, nessuno fa domande",
+      "Il punto di ritrovo è davanti al bar della signora Maria — venti minuti"
+    ],
+    "npc_id": "davide_rullo",
+    "sets_flag": "davide_viene_con_noi"
+  },
+
+  "decision": {
+    "prompt_hint": "Prima di uscire, Alessandro deve decidere una cosa.",
+    "choices": [
+      {
+        "id": "chiama_luca_r_subito",
+        "text": "Chiami Luca R a Wuppertal — deve sapere che passate da Milano",
+        "requires_flag": null,
+        "requires_stat": null,
+        "effects": {
+          "stats": {},
+          "flags_set": ["luca_r_avvisato", "passaggio_milano_confermato"],
+          "flags_clear": [],
+          "inventory_add": [],
+          "inventory_remove": []
+        },
+        "next_scene_id": "strade_pavia_partenza",
+        "resolution_hint": "Risponde dopo tre squilli, voce strana. Dice che sapeva che avreste chiamato. Dice una cosa che non c'entra niente — un libro che stava leggendo, una frase a caso. Poi torna lucido: sì, Milano, ci sarà. E riattacca prima che Alessandro possa dire altro."
+      },
+      {
+        "id": "non_chiamare_luca_r",
+        "text": "Non chiami nessuno. Si parte e basta — Luca R si arrangerà",
+        "requires_flag": null,
+        "requires_stat": null,
+        "effects": {
+          "stats": {},
+          "flags_set": ["luca_r_non_avvisato"],
+          "flags_clear": [],
+          "inventory_add": [],
+          "inventory_remove": []
+        },
+        "next_scene_id": "strade_pavia_partenza",
+        "resolution_hint": "Davide non dice niente. Mette il telefono in tasca. Mentre chiude la porta dell'appartamento, Alessandro vede ancora la tesi sul tavolo — centinaia di pagine che mai nessuno leggerà'."
+      }
+    ]
+  }
+}

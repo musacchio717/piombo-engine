@@ -81,6 +81,10 @@ class HybridContext:
         """
         Serializza i top chunk in testo strutturato per il prompt.
         Formato leggibile dall'LLM con sezioni separate per tipo.
+
+        FIX: ogni chunk descrittivo ora include il nome dell'entità prefissato,
+        così l'LLM non si inventa personaggi a partire dall'incipit della biografia
+        (es. "Romano, si è trasferito..." → diventava un personaggio fantasma).
         """
         top = sorted(self.chunks, key=lambda c: c.score, reverse=True)[:max_chunks]
 
@@ -92,7 +96,9 @@ class HybridContext:
 
         if descriptions:
             section = "## Contesto narrativo\n"
-            section += "\n".join(f"- {c.text}" for c in descriptions)
+            section += "\n".join(
+                f"- [{c.node_name or 'Entità'}] {c.text}" for c in descriptions
+            )
             sections.append(section)
 
         if triplets:
@@ -333,7 +339,4 @@ class HybridRetriever:
         """
         label = meta.get("node_label", "Entity")
         name  = meta.get("node_name", "")
-        # La description completa non è nel payload per risparmiare spazio.
-        # La recuperiamo da Neo4j solo se necessario (graph_to_chunks lo fa già).
-        # Qui restituiamo un testo sintetico dal payload.
         return f"[{label}] {name}"

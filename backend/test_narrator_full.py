@@ -112,6 +112,6 @@ if __name__ == "__main__":
     # Scenario 1 — Incipit
     run_test(
         retriever, llm, lore_graph,
-        action="Mi giro e inseguo l'uomo. Lo fermo e scopro che è uno dei miei amici",
+        action="Sei confuso, cammini senza meta per le strade di Pavia. Cadi per terra. Apri gli occhi. Cosa vedi intorno a te?",
         location="pavia",
     )

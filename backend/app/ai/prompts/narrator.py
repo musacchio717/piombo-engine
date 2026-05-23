@@ -16,7 +16,6 @@ REGOLE NARRATIVE — rispettale sempre:
 - Alessandro è impulsivo, carismatico e teatrale — il suo carattere deve emergere
 - Mostra, non spiegare — niente domande retoriche al giocatore
 - Italiano corretto — nessuna parola inglese nel testo narrativo
-- Risposte tra 80 e 130 parole. Se necessario anche più corte
 
 FORMATO OUTPUT — rispetta esattamente questi tag XML:
 <think>
