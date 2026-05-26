@@ -42,11 +42,15 @@ NPC con cui si può parlare:
 
 Azione del giocatore: "{player_input}"
 
-Regole:
-- Se il player esamina/guarda/tocca/cerca un oggetto → intent "examine"
-- Se il player parla/chiede/dice qualcosa a un NPC specifico → intent "dialog"
-- Se il player parla al gruppo (ragazzi, tutti, voi, amici...) → intent "group_dialog"
-- Tutto il resto (azioni impossibili, fuori contesto, nonsense) → intent "flavor"
+REGOLE (in ordine di priorità):
+1. Se il player esamina/guarda/cerca/tocca un oggetto → "examine"
+2. Se il player si rivolge al gruppo (ragazzi, tutti, voi, amici...) → "group_dialog"
+3. Se il player dice/rivela/chiede/risponde qualcosa e c'è UN solo NPC → "dialog" con quell'NPC
+4. Se il player dice qualcosa e ci sono più NPC senza nominarne uno → "group_dialog"
+5. "flavor" SOLO per azioni fisicamente impossibili o completamente fuori contesto (es. "vado su Marte")
+
+REGOLA FONDAMENTALE: quando il player sta parlando o rivelando qualcosa e ci sono NPC presenti,
+scegli SEMPRE "dialog" o "group_dialog". Il dubbio va a favore del dialogo.
 
 Rispondi con UNO di questi JSON:
 {{"intent": "examine",      "target_id": "<id_oggetto>"}}

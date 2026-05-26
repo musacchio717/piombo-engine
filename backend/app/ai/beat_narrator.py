@@ -72,6 +72,7 @@ class BeatNarrator:
             logger.info("Retrieval:\n%s", retrieval_ctx[:600])
 
         raw = self.llm.generate(BEAT_SYSTEM_PROMPT, user_prompt)
+        print(f"\n>>> DEBUG RAW (primi 500 chars):\n{repr(raw[:500])}\n")
         return self._extract(raw)
 
     # ------------------------------------------------------------------
@@ -86,8 +87,7 @@ class BeatNarrator:
             if expl.type == "examined" and expl.object:
                 return self._fetch(expl.object.name, ctx.location_id, max_chunks=4)
             if expl.type == "dialog" and expl.npc:
-                query = f"{expl.npc.id} {expl.player_query or ''}".strip()
-                return self._fetch(query, ctx.location_id, max_chunks=4)
+                return self._fetch_npc_bio(expl.npc.id)
             if expl.type == "group_dialog":
                 # Retrieval sugli NPC principali della scena
                 npcs_query = " ".join(ctx.npcs_present) if ctx.npcs_present else ctx.location_id
@@ -258,3 +258,38 @@ class BeatNarrator:
         
         logger.warning("Output LLM vuoto")
         return ""
+        
+
+    def _fetch_npc_bio(self, npc_id: str) -> str:
+        """Fetch diretto del personaggio dal KG — nessun vector search, nessun falso positivo."""
+        import json
+        node = self.lore_graph.get_node(npc_id)
+        if not node:
+            return ""
+        
+        core = node.get("core", {})
+        if isinstance(core, str):
+            try:
+                core = json.loads(core)
+            except Exception:
+                core = {}
+        
+        name = core.get("name", npc_id)
+        bio = core.get("biography", "")
+        traits = ", ".join(core.get("personality_traits", []))
+        values = ", ".join(core.get("core_values", []))
+        speech = core.get("speech_style", "")
+        
+        lines = [f"## Personaggio presente: {name}"]
+        if bio:
+            lines.append(bio)
+        if traits:
+            lines.append(f"Tratti: {traits}")
+        if values:
+            lines.append(f"Valori: {values}")
+        if speech:
+            lines.append(f"Come parla: {speech}")
+        
+        return "\n".join(lines)
+    
+    

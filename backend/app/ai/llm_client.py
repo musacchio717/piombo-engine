@@ -89,5 +89,6 @@ class OllamaLLM(LLMClient):
                 "num_predict": self.max_tokens,
                 "num_ctx":     self.num_ctx,
             },
+            think=False,  # disabilita il think di Ollama, usiamo solo i tag XML personalizzati
         )
         return response["message"]["content"]
